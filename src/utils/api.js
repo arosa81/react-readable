@@ -5,13 +5,12 @@ const HEADERS = {
   'Authorization': 'TOKEN_TBD',
 }
 
-export const getAllPosts = () => {
+export const getAllPostsAPI = () => {
   return fetch(`${API_URL}/posts`, { headers: HEADERS })
-    .then((response) => response.json()
-    .then((data) => {
-      data.posts;
-      console.log(data);
-    }));
+    .then(
+      (response) => response.json(),
+      (error) => console.log('An error occured.', error)
+    )
 }
 
 export const getPost = (id ='') => {

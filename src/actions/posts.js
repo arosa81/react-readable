@@ -1,6 +1,25 @@
-export const ADD_POST = 'ADD_POST';
+import * as api from '../utils/api';
+export const REQUEST_POSTS = 'REQUEST_POSTS'
+export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 
-export const addPost = id => {
-  type: ADD_POST,
-  id
+function requestPosts(category) {
+  return {
+    type: REQUEST_POSTS,
+    category
+  }
 }
+
+function receivePosts(posts) {
+  return {
+    type: RECEIVE_POSTS,
+    posts,//json.data.children.map(child => child.data),
+    receivedAt: Date.now(),
+    log: console.log("inside receivePosts: ", posts)
+  }
+}
+
+export const fetchPosts = () => dispatch => (
+  api
+    .getAllPostsAPI()
+    .then((posts) => { dispatch(receivePosts(posts)); console.log("inside posts.js fetchPosts: ", posts); })
+);
