@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import * as api from '../utils/api';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../actions/posts';
+import { fetchCategories } from '../actions/categories';
 
 class App extends Component {
 
   componentDidMount() {
     this.props.queryPosts()
+      .then(() => console.log("at componentDidMount: ", this.state))
+    this.props.queryCategories()
       .then(() => console.log("at componentDidMount: ", this.state))
   }
 
@@ -34,14 +37,17 @@ class App extends Component {
 
 function mapStateToProps(state) {
   console.log("mapStateToProps, ", state.postReducer.posts);
+  console.log("mapStateToCategories, ", state.categoryReducer.categories);
   return {
     posts: state.postReducer.posts,
+    categories: state.categoryReducer.categories,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     queryPosts: () => dispatch(fetchPosts()),
+    queryCategories: () => dispatch(fetchCategories()),
   }
 }
 

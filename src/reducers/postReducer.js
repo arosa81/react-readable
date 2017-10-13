@@ -1,4 +1,3 @@
-import { GET_POST, ADD_POST } from '../actions/posts';
 import {
   REQUEST_POSTS,
   RECEIVE_POSTS
@@ -14,7 +13,7 @@ export default (state=initialState, action) => {
     case RECEIVE_POSTS:
       return {
         ...state,
-        posts: [...action.posts]
+        posts: action.posts
       }
     default:
       return state;

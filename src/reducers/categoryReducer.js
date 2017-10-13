@@ -1,18 +1,20 @@
-import { GET_CATEGORY, ADD_CATEGORY } from '../actions/categories';
+import {
+  REQUEST_CATEGORIES,
+  RECEIVE_CATEGORIES
+} from '../actions/categories'
 
 const initialState = {
-  categores: []
+  categories: []
 }
 
 export default (state=initialState, action) => {
   console.log('action: ': action);
   switch (action.type) {
-    case GET_CATEGORY:
-      console.log('get category reducer');
-      break;
-    case ADD_CATEGORY:
-      console.log('add category reducer');
-      break;
+    case RECEIVE_CATEGORIES:
+      return {
+        ...state,
+        categories: action.categories.categories
+      }
     default:
       return state;
   }

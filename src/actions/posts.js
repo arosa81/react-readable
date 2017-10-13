@@ -12,7 +12,7 @@ function requestPosts(category) {
 function receivePosts(posts) {
   return {
     type: RECEIVE_POSTS,
-    posts,//json.data.children.map(child => child.data),
+    posts,
     receivedAt: Date.now(),
     log: console.log("inside receivePosts: ", posts)
   }
