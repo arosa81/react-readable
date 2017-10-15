@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import sortBy from 'sort-by';
+import Post from './Post'
 // import { sortPosts } from '../actions/posts';
 
 class PostList extends Component {
   state = {
     sorting: 'voteScore',
-  }
-
-  componentDidMount() {
-
   }
 
   handleSorting = (e) => {
@@ -18,35 +15,33 @@ class PostList extends Component {
     e.preventDefault();
     if (e.target.id === 'sortPostDate') {
       this.setState(() => ({ sorting: SORT_POST_BY_DATE }))
-      this.props.posts.sort(sortBy('-voteScore', 'title'))
     }
     else if (e.target.id === 'sortPostVote') {
       this.setState(() => ({ sorting: SORT_POST_BY_VOTE }))
-      this.props.posts.sort(sortBy('-timeStamp', 'title'))
     }
   }
 
   render() {
-    // console.log(this.props);
-    // console.log(this.state);
+    const SORT_POST_BY_VOTE = 'voteScore';
+
+    console.log("PostList PROPS: ", this.props);
+    console.log("PostList STATE: ", this.state);
 
     const { posts } = this.props;
     const { sorting } = this.state;
 
-    posts.sort(sortBy(sorting));
+    sorting === SORT_POST_BY_VOTE ? this.props.posts.sort(sortBy('-voteScore', 'title'))
+            : this.props.posts.sort(sortBy('-timeStamp', 'title'))
 
     return (
       <div>
+        <br/>
         <div onClick={(e) => {this.handleSorting(e)}}>sort by: <a id="sortPostVote"># of Votes</a> | <a id="sortPostDate">Post Date</a></div>
         {this.props.posts.map((post, i) => (
-          <div key={i}>
-            <div>`Title: ${post.title}`</div>
-            <div>`Description: ${post.body}`</div>
-            <div>`Author: ${post.author}`</div>
-            <div>`Category: ${post.category}`</div>
-            <div>`Vote Score: ${post.voteScore}`</div>
-            <br/>
-          </div>
+          <Post
+            key={post.id}
+            post={post}
+          />
         ))}
 
         React - Readable UNDER CONSTRUCTION

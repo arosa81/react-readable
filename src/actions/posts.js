@@ -15,40 +15,56 @@ function requestPosts(category) {
 function receivePosts(posts) {
   return {
     type: RECEIVE_POSTS,
-    posts,
+    posts: posts.filter(post => post.deleted === false),
     receivedAt: Date.now(),
   }
 }
 
+// function receivePostsByCategory(posts, category) {
+//   return {
+//     type: RECEIVE_POSTS_BY_CATEGORY,
+//     posts,
+//     category
+//   }
+// }
 
-function upVotePost(id) {
+function upVotePost(posts) {
   return {
     type: UP_VOTE_ITEM,
-    id,
-    voteOption: 'upVote',
+    posts: posts.filter(post => post.deleted === false),
     timeStamp: Date.now(),
   }
 }
 
-function downVotePost(post) {
+function downVotePost(posts) {
   return {
     type: DOWN_VOTE_ITEM,
-    post,
+    posts: posts.filter(post => post.deleted === false),
     timeStamp: Date.now(),
   }
 }
 
 export const fetchPosts = () => dispatch => (
-  api
-    .getAllPostsAPI()
-    .then((posts) => dispatch(receivePosts(posts)))
+  api.getPosts()
+     .then((posts) => dispatch(receivePosts(posts)))
 );
 
 export const likePost = (id) => dispatch => (
   api
-    .votePost(id)
-    .then((posts) => dispatch(receivePosts(posts)))
+    .votePost(id, 'upVote')
+    .then(() => { api.getPosts()
+                     .then((post) => { dispatch(upVotePost(post)) })
+                })
 );
+
+export const dislikePost = (id) => dispatch => (
+  api
+    .votePost(id, 'downVote')
+    .then(() => { api.getPosts()
+                     .then((post) => { dispatch(downVotePost(post)) })
+                })
+);
+
 
 // export const sortPosts = (posts) => ({
 //     type: SORT_POSTS,

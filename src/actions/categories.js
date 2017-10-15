@@ -20,6 +20,6 @@ function receiveCategories(categories) {
 
 export const fetchCategories = () => dispatch => (
   api
-    .getAllCategories()
+    .getCategories()
     .then((categories) => { dispatch(receiveCategories(categories)); console.log("inside categories.js fetchCategories: ", categories); })
 );

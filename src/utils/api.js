@@ -1,11 +1,14 @@
+var uid = require('rand-token').uid;
+var token = localStorage.token = uid(16);
+
 const API_URL = 'http://localhost:3001'
 const HEADERS = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
-  'Authorization': 'TOKEN_TBD',
+  'Authorization': token,
 }
 
-export const getAllPostsAPI = () => {
+export const getPosts = () => {
   return fetch(`${API_URL}/posts`, { headers: HEADERS })
     .then(
       (response) => response.json(),
@@ -21,7 +24,7 @@ export const getPost = (id = '') => {
     );
 }
 
-export const getAllCategories = () => {
+export const getCategories = () => {
   return fetch(`${API_URL}/categories`, { headers: HEADERS })
     .then(
       (response) => response.json(),
