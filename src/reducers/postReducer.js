@@ -1,14 +1,15 @@
 import {
   REQUEST_POSTS,
-  RECEIVE_POSTS
+  RECEIVE_POSTS,
+  // SORT_POSTS
 } from '../actions/posts'
 
 const initialState = {
-  posts: []
+  posts: [],
 }
 
 export default (state=initialState, action) => {
-  console.log('action: ': action);
+  console.log("actiooooooon", action);
   switch (action.type) {
     case RECEIVE_POSTS:
       return {

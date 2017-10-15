@@ -1,35 +1,27 @@
 import React, { Component } from 'react';
-import * as api from '../utils/api';
 import { connect } from 'react-redux';
+
 import { fetchPosts } from '../actions/posts';
 import { fetchCategories } from '../actions/categories';
+
+import PostList from './PostList';
+import CategoryList from './CategoryList';
 
 class App extends Component {
 
   componentDidMount() {
     this.props.queryPosts()
-      .then(() => console.log("at componentDidMount: ", this.state))
+      .then(() => console.log("at componentDidMount POSTS: ", this.props.posts))
     this.props.queryCategories()
-      .then(() => console.log("at componentDidMount: ", this.state))
+      .then(() => console.log("at componentDidMount CATEGORIES: ", this.props.categories))
   }
 
   render() {
-    const { posts } = this.props;
-    {console.log("render posts: ", posts);}
+    const { posts, categories } = this.props;
     return (
       <div>
-      {posts.map((post, i) => (
-        <div key={i}>
-          <div>`Title: ${post.title}`</div>
-          <div>`Description: ${post.body}`</div>
-          <div>`Author: ${post.author}`</div>
-          <div>`Category: ${post.category}`</div>
-          <div>`Vote Score: ${post.voteScore}`</div>
-          <br/>
-        </div>
-      ))}
-
-        React - Readable UNDER CONSTRUCTION
+        <CategoryList categories={ categories }/>
+        <PostList />
       </div>
     )
   }
