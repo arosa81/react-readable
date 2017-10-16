@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { likePost, dislikePost } from '../actions/posts';
 
 class Post extends Component {
-  state = {
-    post: {}
-  }
+  // state = {
+  //   post: {}
+  // }
 
   handleVote = (e) => {
     const { post } = this.props;
@@ -22,7 +22,7 @@ class Post extends Component {
   render() {
     const { post } = this.props;
     console.log("Post PROPS: ", this.props);
-    console.log("Post STATE: ", this.state);
+    // console.log("Post STATE: ", this.state);
 
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';

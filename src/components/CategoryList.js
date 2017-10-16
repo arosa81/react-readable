@@ -25,13 +25,14 @@ class CategoryList extends Component {
             >
               <button name=''>ALL</button>
             </Link>
-            <Link
-              to='/:category'
-            >
             {categories.map((category, i) => (
-              <button key={i} name={category.path} value={category.name}>{category.name}</button>
-            ))}
-            </Link>
+              <Link
+                to={`/${category.path}`}
+                key={i}
+              >
+                <button name={category.path} value={category.name}>{category.name}</button>
+              </Link>
+              ))}
           </div>
         <br/>
         <PostList
