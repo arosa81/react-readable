@@ -27,22 +27,34 @@ class PostList extends Component {
     console.log("PostList PROPS: ", this.props);
     console.log("PostList STATE: ", this.state);
 
-    const { posts } = this.props;
+    const { posts, categorySelected } = this.props;
     const { sorting } = this.state;
 
-    sorting === SORT_POST_BY_VOTE ? this.props.posts.sort(sortBy('-voteScore', 'title'))
-            : this.props.posts.sort(sortBy('-timeStamp', 'title'))
+    sorting === SORT_POST_BY_VOTE ? posts.sort(sortBy('-voteScore', 'title'))
+                                  : posts.sort(sortBy('-timeStamp', 'title'))
 
     return (
       <div>
         <br/>
-        <div onClick={(e) => {this.handleSorting(e)}}>sort by: <a id="sortPostVote"># of Votes</a> | <a id="sortPostDate">Post Date</a></div>
-        {this.props.posts.map((post, i) => (
-          <Post
-            key={post.id}
-            post={post}
-          />
-        ))}
+        <div onClick={(e) => {this.handleSorting(e)}}>sort by: <a id="sortPostVote"># of Votes</a> |
+                                                               <a id="sortPostDate">Post Date</a></div>
+        {categorySelected === '' && (
+          posts.map((post, i) => (
+            <Post
+              key={post.id}
+              post={post}
+            />
+          ))
+        )}
+        {categorySelected !== '' && (
+          posts.filter((post) => categorySelected === post.category)
+            .map((post) => (
+              <Post
+                key={post.id}
+                post={post}
+              />
+            ))
+        )}
 
         React - Readable UNDER CONSTRUCTION
       </div>
@@ -51,8 +63,6 @@ class PostList extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log("mapStateToProps, ", state.postReducer.posts);
-  // console.log("mapStateToCategories, ", state.categoryReducer.categories);
   return {
     posts: state.postReducer.posts,
     categories: state.categoryReducer.categories,

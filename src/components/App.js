@@ -11,9 +11,9 @@ class App extends Component {
 
   componentDidMount() {
     this.props.queryPosts()
-      .then(() => console.log("at componentDidMount POSTS: ", this.props.posts))
+      // .then(() => console.log("at componentDidMount POSTS: ", this.props.posts))
     this.props.queryCategories()
-      .then(() => console.log("at componentDidMount CATEGORIES: ", this.props.categories))
+      // .then(() => console.log("at componentDidMount CATEGORIES: ", this.props.categories))
   }
 
   render() {
@@ -21,15 +21,14 @@ class App extends Component {
     return (
       <div>
         <CategoryList categories={ categories }/>
-        <PostList />
       </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-  console.log("mapStateToProps, ", state.postReducer.posts);
-  console.log("mapStateToCategories, ", state.categoryReducer.categories);
+  // console.log("mapStateToProps, ", state.postReducer.posts);
+  // console.log("mapStateToCategories, ", state.categoryReducer.categories);
   return {
     posts: state.postReducer.posts,
     categories: state.categoryReducer.categories,

@@ -14,12 +14,11 @@ function receiveCategories(categories) {
     type: RECEIVE_CATEGORIES,
     categories,
     receivedAt: Date.now(),
-    log: console.log("inside receiveCategories: ", categories)
   }
 }
 
 export const fetchCategories = () => dispatch => (
   api
     .getCategories()
-    .then((categories) => { dispatch(receiveCategories(categories)); console.log("inside categories.js fetchCategories: ", categories); })
+    .then((categories) => dispatch(receiveCategories(categories)))
 );

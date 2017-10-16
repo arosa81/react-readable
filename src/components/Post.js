@@ -11,10 +11,8 @@ class Post extends Component {
     const { post } = this.props;
 
     e.preventDefault();
-    console.log(e.target.id);
     if (e.target.id === 'LIKE') {
       this.props.voteLikePost(post.id)
-      console.log("INSIDE LIKE handleVote");
     }
     else if (e.target.id === 'DISLIKE') {
       this.props.voteDislikePost(post.id)

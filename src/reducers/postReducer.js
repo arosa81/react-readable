@@ -10,7 +10,7 @@ const initialState = {
 }
 
 export default (state=initialState, action) => {
-  console.log("REDUCER actiooooooon", action);
+  // console.log("REDUCER actiooooooon", action);
   switch (action.type) {
     case RECEIVE_POSTS:
     case UP_VOTE_ITEM:
