@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import PostList from './PostList';
+import Category from './Category';
 
 class CategoryList extends Component {
   state = {
-    categorySelected: ''
+    categorySelected: '/'
   }
 
   handleCategorySelected = (e) => {
@@ -18,29 +18,20 @@ class CategoryList extends Component {
     const { categories } = this.props;
     return (
       <div>
-        Categories:
-          <div style={{display: 'inline-block'}} onClick={(e) => {this.handleCategorySelected(e)}}>
-            <Link
-              to='/'
-            >
-              <button name=''>ALL</button>
-            </Link>
-            {categories.map((category, i) => (
-              <Link
-                to={`/${category.path}`}
-                key={i}
-              >
-                <button name={category.path} value={category.name}>{category.name}</button>
-              </Link>
-              ))}
-          </div>
+          <Category />
         <br/>
-        <PostList
-          categorySelected={this.state.categorySelected}
-        />
       </div>
     )
   }
 }
 
-export default CategoryList;
+function mapStateToProps(state, { match }) {
+  console.log(match);
+  return {
+    categories: state.categoryReducer.categories,
+    category: state.categoryReducer.categories.filter((category) => category.path === match.params.path),
+    categoryPath: match.params.path || '/',
+  };
+}
+
+export default withRouter(connect(mapStateToProps, null)(CategoryList));

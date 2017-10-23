@@ -1,11 +1,13 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { likePost, dislikePost } from '../actions/posts';
+import { Link } from 'react-router-dom';
+// import PostDetails from './PostDetails';
 
 class Post extends Component {
-  // state = {
-  //   post: {}
-  // }
+  state = {
+    post: {}
+  }
 
   handleVote = (e) => {
     const { post } = this.props;
@@ -29,11 +31,15 @@ class Post extends Component {
     return (
       <div>
         <br/>
-        <div>`Title: ${post.title}`</div>
-        <div>`Description: ${post.body}`</div>
-        <div>`Author: ${post.author}`</div>
-        <div>`Category: ${post.category}`</div>
-        <div>`Vote Score: ${post.voteScore}`</div>
+        <Link
+          to={`/${post.category}/${post.id}`}
+        >
+          <div>Title: {post.title}</div>
+        </Link>
+        <div>Description: {post.body}</div>
+        <div>Author: {post.author}</div>
+        <div>Category: {post.category}</div>
+        <div>Vote Score: {post.voteScore}</div>
         <div style={{display: 'inline-block'}} onClick={(e) => {this.handleVote(e)}}>
           <button id={LIKE}>LIKE</button>
           <button id={DISLIKE}>DISLIKE</button>

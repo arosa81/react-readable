@@ -1,34 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, Route, Switch, Link } from 'react-router-dom';
 
 import { fetchPosts } from '../actions/posts';
 import { fetchCategories } from '../actions/categories';
 
-import PostList from './PostList';
+import Header from './Header';
 import CategoryList from './CategoryList';
+import Category from './Category';
+import PostForm from './PostForm';
+import PostDetails from './PostDetails';
+
 
 class App extends Component {
-
   componentDidMount() {
+    console.log("lllllllllll: ", this.props)
+    this.props.match.params = {
+      categoryPath: 'ALL'
+    }
     this.props.queryPosts()
-      // .then(() => console.log("at componentDidMount POSTS: ", this.props.posts))
     this.props.queryCategories()
-      // .then(() => console.log("at componentDidMount CATEGORIES: ", this.props.categories))
   }
 
   render() {
     const { posts, categories } = this.props;
     return (
       <div>
-        <CategoryList categories={ categories }/>
+        <Header />
+        <Switch>
+          <Route exact path='/' render={() => <CategoryList />} />
+          <Route exact path='/:categoryPath' render={() => <Category />} />
+          {posts && (
+            <Route exact path='/:categoryPath/:postID' render={({ match }) => (
+              <PostDetails post={posts.find(p => p.id === match.params.postID)}/>
+            )}/>
+          )}
+          <Route path='/create' render={() => (
+            <PostForm posts={ posts } />
+          )}/>
+        </Switch>
       </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-  // console.log("mapStateToProps, ", state.postReducer.posts);
-  // console.log("mapStateToCategories, ", state.categoryReducer.categories);
   return {
     posts: state.postReducer.posts,
     categories: state.categoryReducer.categories,
@@ -42,4 +58,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

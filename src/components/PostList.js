@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import sortBy from 'sort-by';
-import Post from './Post'
+import Post from './Post';
+import PostForm from './PostForm';
 // import { sortPosts } from '../actions/posts';
 
 class PostList extends Component {
   state = {
     sorting: 'voteScore',
+    formOpen: false
   }
 
   handleSorting = (e) => {
@@ -28,7 +32,7 @@ class PostList extends Component {
     console.log("PostList STATE: ", this.state);
 
     const { posts, categorySelected } = this.props;
-    const { sorting } = this.state;
+    const { sorting, formOpen } = this.state;
 
     sorting === SORT_POST_BY_VOTE ? posts.sort(sortBy('-voteScore', 'title'))
                                   : posts.sort(sortBy('-timeStamp', 'title'))
@@ -36,27 +40,40 @@ class PostList extends Component {
     return (
       <div>
         <br/>
+        <Link
+          to='/create'
+          onClick={() => {this.setState(() => ({ formOpen: true }))}}
+        >Add Post</Link>
+        <br/>
         <div onClick={(e) => {this.handleSorting(e)}}>sort by: <a id="sortPostVote"># of Votes</a> |
                                                                <a id="sortPostDate">Post Date</a></div>
-        {categorySelected === '' && (
-          posts.map((post, i) => (
-            <Post
-              key={post.id}
-              post={post}
-            />
-          ))
-        )}
-        {categorySelected !== '' && (
-          posts.filter((post) => categorySelected === post.category)
-            .map((post) => (
-              <Post
-                key={post.id}
-                post={post}
-              />
-            ))
-        )}
+        { formOpen === false ?
+          (
+            categorySelected === '/' ?
+            (
+              posts.map((post) => (
+                <Post
+                  key={post.id}
+                  post={post}
+                />
+              ))
+            ) :
+            (
+              posts.filter((post) => categorySelected === post.category)
+                  .map((post) => (
+                    <Post
+                    key={post.id}
+                    post={post}
+                    />
+                  ))
+            )
+          ) :
+          (
+            <PostForm />
+          )
+        }
 
-        React - Readable UNDER CONSTRUCTION
+
       </div>
     )
   }

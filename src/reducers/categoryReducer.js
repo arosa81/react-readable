@@ -1,5 +1,4 @@
 import {
-  REQUEST_CATEGORIES,
   RECEIVE_CATEGORIES
 } from '../actions/categories'
 

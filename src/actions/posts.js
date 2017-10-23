@@ -1,16 +1,8 @@
 import * as api from '../utils/api';
-export const REQUEST_POSTS = 'REQUEST_POSTS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 // export const SORT_POSTS = 'SORT_POSTS';
 export const UP_VOTE_ITEM = 'UP_VOTE_ITEM';
 export const DOWN_VOTE_ITEM = 'DOWN_VOTE_ITEM';
-
-function requestPosts(category) {
-  return {
-    type: REQUEST_POSTS,
-    category
-  }
-}
 
 function receivePosts(posts) {
   return {
