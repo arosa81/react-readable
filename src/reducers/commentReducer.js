@@ -1,18 +1,25 @@
-import { GET_COMMENT, ADD_COMMENT } from '../actions/comments';
+import {
+  RECEIVE_COMMENTS,
+  RECEIVE_COMMENT,
+  UP_VOTE_COMMENT,
+  DOWN_VOTE_COMMENT
+} from '../actions/comments';
 
 const initialState = {
-  comments: []
+  comments: [],
 }
 
 export default (state=initialState, action) => {
-  console.log('action: ': action);
+  console.log('action COMMENTS: ', action);
   switch (action.type) {
-    case GET_COMMENT:
-      console.log('get comments reducer');
-      break;
-    case ADD_COMMENT:
-      console.log('add comment reducer');
-      break;
+    case RECEIVE_COMMENTS:
+    case RECEIVE_COMMENT:
+    case UP_VOTE_COMMENT:
+    case DOWN_VOTE_COMMENT:
+      return {
+        ...state,
+        comments: action.comments
+      }
     default:
       return state;
   }

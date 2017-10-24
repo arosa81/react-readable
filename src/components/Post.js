@@ -2,7 +2,6 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { likePost, dislikePost } from '../actions/posts';
 import { Link } from 'react-router-dom';
-// import PostDetails from './PostDetails';
 
 class Post extends Component {
   state = {
