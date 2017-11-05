@@ -6,9 +6,11 @@ import Post from './Post';
 import CategoryList from './CategoryList';
 
 class Category extends Component {
-  state = {
-    sorting: 'voteScore',
-    modalOpen: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      sorting: 'voteScore',
+    }
   }
 
   handleSorting = (e) => {
@@ -26,18 +28,18 @@ class Category extends Component {
   render() {
     const SORT_POST_BY_VOTE = 'voteScore';
     const { posts, categories, match } = this.props;
-    console.log("kkkkkkk: ", match);
     const { sorting, modalOpen } = this.state;
     const defaultPostList = match.path === '/' && (
                       <div>
-                      <h2 className="category-title-content">ALL</h2>
-                      {posts.map((post) => (
-                        <Post
-                          key={post.id}
-                          post={post}
-                        />
-                      ))}</div>
-                    )
+                        <h2 className="category-title-content">ALL</h2>
+                        {posts.map((post) => (
+                          <Post
+                            key={post.id}
+                            post={post}
+                          />
+                        ))}
+                      </div>)
+
     const filteredPostList = match.params.categoryPath !== undefined && (
       <div>
         <h2 className="category-title-content">{match.params.categoryPath}</h2>
@@ -47,8 +49,8 @@ class Category extends Component {
                   key={post.id}
                   post={post}
                 />
-              ))}</div>
-    )
+              ))}
+      </div>)
 
     sorting === SORT_POST_BY_VOTE ? posts.sort(sortBy('-voteScore', 'title'))
                                   : posts.sort(sortBy('-timeStamp', 'title'))
@@ -77,6 +79,5 @@ function mapStateToProps(state, { match }) {
     categories: state.categoryReducer.categories,
   };
 }
-
 
 export default withRouter(connect(mapStateToProps, null)(Category));

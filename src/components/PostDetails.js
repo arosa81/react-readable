@@ -4,7 +4,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { likePost, dislikePost } from '../actions/posts';
 import { fetchComments, fetchComment } from '../actions/comments';
 
-
 class PostDetails extends Component {
   componentDidMount() {
     const { post } = this.props;

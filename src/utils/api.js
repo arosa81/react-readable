@@ -26,14 +26,7 @@ export const addPost = ({ id, timestamp, title, body, author, category }) => (
   fetch(`${API_URL}/posts`, {
     headers: HEADERS,
     method: 'POST',
-    body: JSON.stringify({
-      id,
-      timestamp,
-      title,
-      body,
-      author,
-      category,
-    })
+    body: JSON.stringify({ id, timestamp, title, body, author, category, })
    }).then(
       (response) => response.json(),
       (error) => console.error('getAllPostsAPI - An error occured.', error)
