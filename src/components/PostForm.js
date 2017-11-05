@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 class PostForm extends Component {
-  state = {
-    title: '',
-    body: '',
-    category: '',
-    author: '',
+  constructor(props) {
+    super(props);
+    this.state = {
+      title: '',
+      body: '',
+      category: '',
+      author: '',
+    }
   }
 
   componentDidMount() {
-    console.log("ddddddddd", this.state);
+    const { location } = this.props
     const { title, body, category, author } = this.state;
-    this.setState({title, body, category, author});
+    location.state !== undefined
+      ? this.setState(() => (
+          {
+            title: location.state.post.title,
+            body: location.state.post.body,
+            category: location.state.post.category,
+            author: location.state.post.author
+          }
+        ))
+      : this.setState(() => ({title, body, category, author}))
   }
 
   handleSubmit = (e) => {
@@ -25,6 +37,7 @@ class PostForm extends Component {
     // }
   }
   render() {
+    console.log("iiiii", this.state)
     return (
       <div>
         <Link to='/'>Close</Link>
@@ -40,8 +53,4 @@ class PostForm extends Component {
   }
 }
 
-function mapStateToProps(state, props) {
-  return {};
-}
-
-export default connect(mapStateToProps)(PostForm);
+export default withRouter(PostForm);

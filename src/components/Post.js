@@ -42,6 +42,14 @@ class Post extends Component {
         <div style={{display: 'inline-block'}} onClick={(e) => {this.handleVote(e)}}>
           <button id={LIKE}>LIKE</button>
           <button id={DISLIKE}>DISLIKE</button>
+          <Link
+            to={{
+              pathname: `/edit`,
+              state: { post },
+            }}
+          >
+            <button>Edit Post</button>
+          </Link>
         </div>
       </div>
     )

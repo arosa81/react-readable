@@ -28,6 +28,27 @@ class Category extends Component {
     const { posts, categories, match } = this.props;
     console.log("kkkkkkk: ", match);
     const { sorting, modalOpen } = this.state;
+    const defaultPostList = match.path === '/' && (
+                      <div>
+                      <h2 className="category-title-content">ALL</h2>
+                      {posts.map((post) => (
+                        <Post
+                          key={post.id}
+                          post={post}
+                        />
+                      ))}</div>
+                    )
+    const filteredPostList = match.params.categoryPath !== undefined && (
+      <div>
+        <h2 className="category-title-content">{match.params.categoryPath}</h2>
+        {posts.filter((p) => p.category === match.params.categoryPath)
+              .map((post) => (
+                <Post
+                  key={post.id}
+                  post={post}
+                />
+              ))}</div>
+    )
 
     sorting === SORT_POST_BY_VOTE ? posts.sort(sortBy('-voteScore', 'title'))
                                   : posts.sort(sortBy('-timeStamp', 'title'))
@@ -36,29 +57,15 @@ class Category extends Component {
       <div>
         <div onClick={(e) => {this.handleSorting(e)}}>sort by: <a id="sortPostVote"># of Votes</a> |
                                                                <a id="sortPostDate">Post Date</a></div>
-
-        {match.path === '/' && (
-          <div>
-          <h2 className="category-title-content">ALL</h2>
-          {posts.map((post) => (
-            <Post
-              key={post.id}
-              post={post}
-            />
-          ))}</div>
-        )}
-        { match.params.categoryPath !== undefined && (
-          <div>
-            <h2 className="category-title-content">{match.params.categoryPath}</h2>
-            {posts.filter((p) => p.category === match.params.categoryPath)
-                  .map((post) => (
-                    <Post
-                      key={post.id}
-                      post={post}
-                    />
-                  ))}</div>
-        )}
-
+        <div style={{display: 'inline-block'}}>
+          <Link
+            to={`/create`}
+          >
+            <button name='createPost'>New Post</button>
+          </Link>
+        </div>
+        { defaultPostList }
+        { filteredPostList }
       </div>
     )
   }

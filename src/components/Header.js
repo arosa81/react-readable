@@ -5,6 +5,16 @@ import { connect } from 'react-redux';
 class Header extends Component {
   render() {
     const { categories } = this.props;
+    const categoriesList =
+    categories.map((category, i) => (
+      <div style={{display: 'inline-block'}} key={i}>
+        <Link
+          to={`/${category.path}`}
+          >
+          <button name={category.path} >{category.name}</button>
+        </Link>
+      </div>
+    ))
     return (
       <div>
       Categories:
@@ -15,15 +25,7 @@ class Header extends Component {
             <button name='/'>ALL</button>
           </Link>
         </div>
-          { categories.map((category, i) => (
-            <div style={{display: 'inline-block'}} key={i}>
-              <Link
-                to={`/${category.path}`}
-                >
-                <button name={category.path} >{category.name}</button>
-              </Link>
-            </div>
-        )) }
+          { categoriesList }
       </div>
     )
   }

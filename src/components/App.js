@@ -29,15 +29,13 @@ class App extends Component {
         <Header />
         <Switch>
           <Route exact path='/' render={() => <CategoryList />} />
+          <Route exact path='/:id' render={({ match }) => (<PostForm/>)} />
           <Route exact path='/:categoryPath' render={() => <Category />} />
           {posts && (
             <Route exact path='/:categoryPath/:postID' render={({ match }) => (
               <PostDetails post={posts.find(p => p.id === match.params.postID)}/>
             )}/>
           )}
-          <Route path='/create' render={() => (
-            <PostForm posts={ posts } />
-          )}/>
         </Switch>
       </div>
     )

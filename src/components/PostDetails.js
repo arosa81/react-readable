@@ -17,6 +17,14 @@ class PostDetails extends Component {
     console.log(this.props);
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
+    const commentList = comments.map((comment) => (
+      <div key={comment.id}>
+        <div>{comment.body}</div>
+        <div>{comment.author}</div>
+        <div>{new Date(comment.timestamp).toLocaleTimeString().toString()}</div>
+        <br/>
+      </div>
+    ));
     return (
       <div>
         <br/>
@@ -31,16 +39,7 @@ class PostDetails extends Component {
         </div>
         <br/>
         <h3>Comments</h3>
-        {
-          comments.map((comment) => (
-            <div>
-              <div>{comment.body}</div>
-              <div>{comment.author}</div>
-              <div>{new Date(comment.timestamp).toString()}</div>
-              <br/>
-            </div>
-          ))
-        }
+        {commentList}
       </div>
     )
   }
