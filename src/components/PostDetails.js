@@ -44,7 +44,7 @@ class PostDetails extends Component {
   }
 }
 
-function mapStateToProps(state, { match }) {
+function mapStateToProps(state) {
   console.log("COMMENTS STATE: ", state);
   return {
     categories: state.categoryReducer.categories,

@@ -10,7 +10,6 @@ const initialState = {
 }
 
 export default (state=initialState, action) => {
-  console.log('action COMMENTS: ', action);
   switch (action.type) {
     case RECEIVE_COMMENTS:
     case RECEIVE_COMMENT:

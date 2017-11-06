@@ -3,33 +3,38 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addNewPost } from '../actions/posts'
 
+let uid = require('rand-token').uid;
+
 class PostForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
       body: '',
-      category: '',
       author: '',
+      category: '',
     };
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
-    const { location } = this.props
+    const { match, location } = this.props
+    console.log("pppppppp", this.props);
     const { title, body, category, author } = this.state;
-    location.state !== undefined
-      ? this.setState(() => (
+    match.path === '/edit' && (
+      this.setState(() => (
           {
             title: location.state.post.title,
             body: location.state.post.body,
+            author: location.state.post.author,
             category: location.state.post.category,
-            author: location.state.post.author
           }
-        ))
-      : this.setState(() => ({title, body, category, author}))
+        )))
+    match.path === '/create' && (
+      this.setState(() => ({title, body, category, author})))
   }
 
   handleTitleChange = (e) => {
@@ -51,6 +56,15 @@ class PostForm extends Component {
     // if (this.props.onCreateContact) {
     //   this.props.onCreateContact(values);
     // }
+    const { location, addPost } = this.props
+    const { title, body, category, author } = this.state;
+    location.state !== undefined
+      ? console.log('whatever')
+      : ( addPost({
+            id: uid(16),
+            timeStamp: Date.now(),
+            ...this.state,
+          }))
   }
   render() {
     console.log("iiiii", this.state)
@@ -92,7 +106,7 @@ class PostForm extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, { match }) {
   return {
     categories: state.categoryReducer.categories,
   }
