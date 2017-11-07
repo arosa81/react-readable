@@ -22,7 +22,7 @@ export const getPost = (id = '') => (
       (error) => console.error('getPost - An error occured.', error)
 ))
 
-export const addPost = ({ id, timestamp, title, body, author, category }) => (
+export const addPost = ({ id = token, timestamp = Date.now(), title, body, author, category }) => (
   fetch(`${API_URL}/posts`, {
     headers: HEADERS,
     method: 'POST',

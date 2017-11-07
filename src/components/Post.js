@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { likePost, dislikePost } from '../actions/posts';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 class Post extends Component {
   state = {
@@ -24,7 +24,7 @@ class Post extends Component {
     const { post } = this.props;
     console.log("Post PROPS: ", this.props);
     // console.log("Post STATE: ", this.state);
-
+    let dateOptions = { formatMatcher: 'best fit' };
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
     return (
@@ -39,6 +39,7 @@ class Post extends Component {
         <div>Author: {post.author}</div>
         <div>Category: {post.category}</div>
         <div>Vote Score: {post.voteScore}</div>
+        <div>Date Posted: {new Date(post.timestamp).toLocaleDateString().toString()}</div>
         <div style={{display: 'inline-block'}} onClick={(e) => {this.handleVote(e)}}>
           <button id={LIKE}>LIKE</button>
           <button id={DISLIKE}>DISLIKE</button>
@@ -63,4 +64,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Post);
+export default withRouter(connect(null, mapDispatchToProps)(Post));

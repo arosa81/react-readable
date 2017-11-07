@@ -56,14 +56,14 @@ class PostForm extends Component {
     // if (this.props.onCreateContact) {
     //   this.props.onCreateContact(values);
     // }
-    const { location, addPost } = this.props
+    const { location, addPost, categories } = this.props
     const { title, body, category, author } = this.state;
+    console.log("yyyyyy", categories);
     location.state !== undefined
       ? console.log('whatever')
       : ( addPost({
-            id: uid(16),
-            timeStamp: Date.now(),
             ...this.state,
+            category: categories[0].name,
           }))
   }
   render() {
@@ -71,7 +71,7 @@ class PostForm extends Component {
     const { categories } = this.props;
     return (
       <div>
-        <Link to='/'>Close</Link>
+        <Link to={{ pathname: '/', state: { sorting: 'voteScore' } }}>Close</Link>
         <form onSubmit={this.handleSubmit} >
           <div className='create-post-details'>
             <input

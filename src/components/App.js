@@ -18,8 +18,8 @@ class App extends Component {
     this.props.match.params = {
       categoryPath: 'ALL'
     }
-    this.props.queryPosts()
-    this.props.queryCategories()
+    this.props.queryPosts();
+    this.props.queryCategories();
   }
 
   render() {

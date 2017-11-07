@@ -8,11 +8,11 @@ class CategoryList extends Component {
     categorySelected: '/'
   }
 
-  handleCategorySelected = (e) => {
-    e.preventDefault();
-    this.setState({ categorySelected: e.target.name });
-    console.log("handleCategorySelected: ", this.state.categorySelected);
-  }
+  // handleCategorySelected = (e) => {
+  //   e.preventDefault();
+  //   this.setState({ categorySelected: e.target.name });
+  //   console.log("handleCategorySelected: ", this.state.categorySelected);
+  // }
 
   render () {
     const { categories } = this.props;

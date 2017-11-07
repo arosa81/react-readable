@@ -4,41 +4,59 @@ import { withRouter, Link } from 'react-router-dom';
 import sortBy from 'sort-by';
 import Post from './Post';
 import CategoryList from './CategoryList';
+import { fetchPosts } from '../actions/posts';
+
 
 class Category extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      sorting: 'voteScore',
+      sorting: '',
     }
   }
 
   handleSorting = (e) => {
     const SORT_POST_BY_DATE = 'postDate';
     const SORT_POST_BY_VOTE = 'voteScore';
-    e.preventDefault();
-    if (e.target.id === 'sortPostDate') {
-      this.setState(() => ({ sorting: SORT_POST_BY_DATE }))
+    const { posts } = this.props;
+    const { sorting } = this.state;
+    if (e === undefined ){
+      this.setState(() => ({ sorting: SORT_POST_BY_VOTE }));
+      posts.sort(sortBy('-voteScore', 'title'));
     }
-    else if (e.target.id === 'sortPostVote') {
-      this.setState(() => ({ sorting: SORT_POST_BY_VOTE }))
+    else {
+      e.preventDefault();
+      if (e.target.id === 'sortPostDate') {
+        this.setState(() => ({ sorting: SORT_POST_BY_DATE }));
+        posts.sort(sortBy('-timestamp', 'title'));
+      }
+      else {
+        this.setState(() => ({ sorting: SORT_POST_BY_VOTE }));
+        posts.sort(sortBy('-voteScore', 'title'));
+      }
     }
   }
 
+  componentDidMount() {
+    this.setState({ sorting: 'voteScore' });
+    this.handleSorting();
+  }
+
   render() {
-    const SORT_POST_BY_VOTE = 'voteScore';
     const { posts, categories, match } = this.props;
+    console.log("oooooo", this.props);
     const { sorting, modalOpen } = this.state;
     const defaultPostList = match.path === '/' && (
-                      <div>
-                        <h2 className="category-title-content">ALL</h2>
-                        {posts.map((post) => (
-                          <Post
-                            key={post.id}
-                            post={post}
-                          />
-                        ))}
-                      </div>)
+      <div>
+        <h2 className="category-title-content">ALL</h2>
+        {posts.map((post) => (
+          <Post
+            key={post.id}
+            post={post}
+          />
+        ))}
+      </div>)
 
     const filteredPostList = match.params.categoryPath !== undefined && (
       <div>
@@ -51,14 +69,14 @@ class Category extends Component {
                 />
               ))}
       </div>)
-
-    sorting === SORT_POST_BY_VOTE ? posts.sort(sortBy('-voteScore', 'title'))
-                                  : posts.sort(sortBy('-timeStamp', 'title'))
+      // sorting === 'voteScore' ? posts.sort(sortBy('-voteScore', 'title'))
+      //                         : posts.sort(sortBy('-timestamp', 'title'))
 
     return (
       <div>
-        <div onClick={(e) => {this.handleSorting(e)}}>sort by: <a id="sortPostVote"># of Votes</a> |
-                                                               <a id="sortPostDate">Post Date</a></div>
+        <div onClick={(e) => {this.handleSorting(e)}}>
+          sort by: <button id="sortPostVote"># of Votes</button> | <button id="sortPostDate">Post Date</button>
+        </div>
         <div style={{display: 'inline-block'}}>
           <Link
             to={`/create`}
@@ -66,6 +84,7 @@ class Category extends Component {
             <button name='createPost'>New Post</button>
           </Link>
         </div>
+        { this.handleSorting }
         { defaultPostList }
         { filteredPostList }
       </div>
@@ -80,4 +99,10 @@ function mapStateToProps(state, { match }) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, null)(Category));
+function mapDispatchToProps(dispatch) {
+  return {
+    queryPosts: () => dispatch(fetchPosts()),
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Category));
