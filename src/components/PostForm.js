@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router'
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addNewPost, editExistingPost } from '../actions/posts'
@@ -13,6 +14,7 @@ class PostForm extends Component {
       body: '',
       author: '',
       category: '',
+      redirectToHome: false,
     };
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
@@ -53,28 +55,40 @@ class PostForm extends Component {
     this.setState({ category: e.target.value });
   }
 
+  handleRedirect = () => {
+    const { history } = this.props;
+    setTimeout(() => {
+      history.goBack();
+    }, 200)
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    const { location, addPost, editPost, categories, posts } = this.props
-    const { title, body, category, author } = this.state;
-    location.state !== undefined
-      ? ( editPost({
+    const { history, location, addPost, editPost, categories, posts } = this.props;
+    const { title, body, category, author, redirectToHome } = this.state;
+    if (location.state !== undefined) {
+      editPost({
             id: location.state.post.id,
             title,
             body,
             category,
-          })
-        )
-      : ( addPost({
+          });
+      this.handleRedirect();
+    } else {
+      addPost({
             ...this.state,
             category: categories[0].name,
           }).then((post) => ({
             posts: posts.concat([post])
-          })))
+          }));
+      this.handleRedirect();
+    }
   }
+
   render() {
     console.log("iiiii", this.state)
     const { categories } = this.props;
+
     return (
       <div>
         <Link to={{ pathname: '/', state: { sorting: 'voteScore' } }}>Close</Link>
