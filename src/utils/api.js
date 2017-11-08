@@ -1,5 +1,5 @@
-var uid = require('rand-token').uid;
-var token = localStorage.token = uid(16);
+var token = localStorage.token = Math.random().toString(36).substr(-11);
+
 
 const API_URL = 'http://localhost:3001'
 const HEADERS = {
@@ -22,11 +22,21 @@ export const getPost = (id = '') => (
       (error) => console.error('getPost - An error occured.', error)
 ))
 
-export const addPost = ({ id = token, timestamp = Date.now(), title, body, author, category }) => (
+export const addPost = ({ id = Math.random().toString(36).substr(-11), timestamp = Date.now(), title, body, author, category }) => (
   fetch(`${API_URL}/posts`, {
     headers: HEADERS,
     method: 'POST',
     body: JSON.stringify({ id, timestamp, title, body, author, category, })
+   }).then(
+      (response) => response.json(),
+      (error) => console.error('getAllPostsAPI - An error occured.', error)
+))
+
+export const editPost = ({ id = '', timestamp = Date.now(), title, body, category }) => (
+  fetch(`${API_URL}/posts/${id}`, {
+    headers: HEADERS,
+    method: 'PUT',
+    body: JSON.stringify({ id, timestamp, title, body, category, })
    }).then(
       (response) => response.json(),
       (error) => console.error('getAllPostsAPI - An error occured.', error)

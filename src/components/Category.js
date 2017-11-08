@@ -39,7 +39,6 @@ class Category extends Component {
   }
 
   componentDidMount() {
-    this.setState({ sorting: 'voteScore' });
     this.handleSorting();
   }
 

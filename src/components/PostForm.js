@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addNewPost } from '../actions/posts'
+import { addNewPost, editExistingPost } from '../actions/posts'
 
 let uid = require('rand-token').uid;
 
@@ -45,26 +45,32 @@ class PostForm extends Component {
     this.setState({ body: e.target.value });
   }
 
+  handleAuthorChange = (e) => {
+    this.setState({ author: e.target.value });
+  }
+
   handleCategoryChange = (e) => {
     this.setState({ category: e.target.value });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const values = ''//serializeForm(e.target, { hash: true });
-    console.log(values);
-    // if (this.props.onCreateContact) {
-    //   this.props.onCreateContact(values);
-    // }
-    const { location, addPost, categories } = this.props
+    const { location, addPost, editPost, categories, posts } = this.props
     const { title, body, category, author } = this.state;
-    console.log("yyyyyy", categories);
     location.state !== undefined
-      ? console.log('whatever')
+      ? ( editPost({
+            id: location.state.post.id,
+            title,
+            body,
+            category,
+          })
+        )
       : ( addPost({
             ...this.state,
             category: categories[0].name,
-          }))
+          }).then((post) => ({
+            posts: posts.concat([post])
+          })))
   }
   render() {
     console.log("iiiii", this.state)
@@ -74,20 +80,26 @@ class PostForm extends Component {
         <Link to={{ pathname: '/', state: { sorting: 'voteScore' } }}>Close</Link>
         <form onSubmit={this.handleSubmit} >
           <div className='create-post-details'>
-            <input
-              type="text"
-              name='title'
-              placeholder='Post Title'
-              value={this.state.title}
-              onChange={this.handleTitleChange}
-            />
-            <textarea
-              type="text"
-              name='body'
-              placeholder='Enter your post here'
-              value={this.state.body}
-              onChange={this.handleBodyChange}
-            />
+            <label>
+              Post Title:
+              <input
+                type="text"
+                name='title'
+                placeholder='Post Title'
+                value={this.state.title}
+                onChange={this.handleTitleChange}
+              />
+            </label>
+            <label>
+              Description:
+              <textarea
+                type="text"
+                name='body'
+                placeholder='Enter your post here'
+                value={this.state.body}
+                onChange={this.handleBodyChange}
+              />
+            </label>
             <label>
               Pick your category:
               <select value={this.state.category} onChange={this.handleCategoryChange}>
@@ -97,6 +109,10 @@ class PostForm extends Component {
                   ))
                 }
               </select>
+            </label>
+            <label>
+              Author:
+              <input type="text" value={this.state.author} onChange={this.handleAuthorChange} />
             </label>
             <input type="submit" value="Add Post" />
           </div>
@@ -109,12 +125,14 @@ class PostForm extends Component {
 function mapStateToProps(state, { match }) {
   return {
     categories: state.categoryReducer.categories,
+    posts: state.postReducer.posts,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     addPost: (post) => dispatch(addNewPost(post)),
+    editPost: (post) => dispatch(editExistingPost(post)),
   }
 }
 

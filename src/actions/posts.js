@@ -1,6 +1,7 @@
 import * as api from '../utils/api';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const ADD_POST = 'ADD_POST';
+export const EDIT_POST = 'EDIT_POST';
 export const UP_VOTE_POST = 'UP_VOTE_POST';
 export const DOWN_VOTE_POST = 'DOWN_VOTE_POST';
 
@@ -15,6 +16,14 @@ function receivePosts(posts) {
 function addPost(posts) {
   return {
     type: ADD_POST,
+    posts: posts.filter(post => post.deleted === false),
+    timeStamp: Date.now(),
+  }
+}
+
+function editPost(posts) {
+  return {
+    type: EDIT_POST,
     posts: posts.filter(post => post.deleted === false),
     timeStamp: Date.now(),
   }
@@ -45,6 +54,13 @@ export const addNewPost = (post) => dispatch => (
   api.addPost(post)
      .then(() => { api.getPosts()
                       .then((p) => { dispatch(addPost(p))})
+     })
+)
+
+export const editExistingPost = (post) => dispatch => (
+  api.editPost(post)
+     .then(() => { api.getPosts()
+                      .then((p) => { dispatch(editPost(p))})
      })
 )
 
