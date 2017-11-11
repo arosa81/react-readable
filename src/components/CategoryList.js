@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import Category from './Category';
 
 class CategoryList extends Component {
-  state = {
-    categorySelected: '/'
-  }
 
   render () {
     const { categories } = this.props;

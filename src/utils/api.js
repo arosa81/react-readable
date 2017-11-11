@@ -1,5 +1,4 @@
-var token = localStorage.token = Math.random().toString(36).substr(-11);
-
+var token = localStorage.token = Math.random().toString(36).substr(-10);
 
 const API_URL = 'http://localhost:3001'
 const HEADERS = {
@@ -22,7 +21,7 @@ export const getPost = (id = '') => (
       (error) => console.error('getPost - An error occured.', error)
 ))
 
-export const addPost = ({ id = Math.random().toString(36).substr(-11), timestamp = Date.now(), title, body, author, category }) => (
+export const addPost = ({ id = Math.random().toString(36).substr(-10), timestamp = Date.now(), title, body, author, category }) => (
   fetch(`${API_URL}/posts`, {
     headers: HEADERS,
     method: 'POST',
@@ -78,6 +77,26 @@ export const getComment = (postID = '') => (
     .then(
       (response) => response.json(),
       (error) => console.error('getComment - An error occured.', error)
+))
+
+export const addComment = ({ id = Math.random().toString(36).substr(-10), timestamp = Date.now(), body, author, postID = '' }) => (
+  fetch(`${API_URL}/comments`, {
+    headers: HEADERS,
+    method: 'POST',
+    body: JSON.stringify({ id, timestamp, body, author, postID })
+   }).then(
+      (response) => response.json(),
+      (error) => console.error('getAllPostsAPI - An error occured.', error)
+))
+
+export const editComment = ({ id = '', timestamp = Date.now(), body, author }) => (
+  fetch(`${API_URL}/comments`, {
+    headers: HEADERS,
+    method: 'POST',
+    body: JSON.stringify({ id, timestamp, body, author })
+   }).then(
+      (response) => response.json(),
+      (error) => console.error('getAllPostsAPI - An error occured.', error)
 ))
 
 export const voteComment = (id = '', voteOption) => (

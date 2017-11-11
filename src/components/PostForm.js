@@ -14,7 +14,6 @@ class PostForm extends Component {
       body: '',
       author: '',
       category: '',
-      redirectToHome: false,
     };
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
@@ -26,7 +25,7 @@ class PostForm extends Component {
     const { match, location } = this.props
     console.log("pppppppp", this.props);
     const { title, body, category, author } = this.state;
-    match.path === '/edit' && (
+    match.path === '/Edit Post' && (
       this.setState(() => (
           {
             title: location.state.post.title,
@@ -35,7 +34,7 @@ class PostForm extends Component {
             category: location.state.post.category,
           }
         )))
-    match.path === '/create' && (
+    match.path === '/Add Post' && (
       this.setState(() => ({title, body, category, author})))
   }
 
@@ -55,7 +54,12 @@ class PostForm extends Component {
     this.setState({ category: e.target.value });
   }
 
-  handleRedirect = () => {
+  validate = () => {
+    const { title, body, author, category } = this.state;
+    return title !== '' && body !== '' && author !== '' && category !== '' ;
+  };
+
+  redirectBack = () => {
     const { history } = this.props;
     setTimeout(() => {
       history.goBack();
@@ -65,7 +69,7 @@ class PostForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { history, location, addPost, editPost, categories, posts } = this.props;
-    const { title, body, category, author, redirectToHome } = this.state;
+    const { title, body, author, category } = this.state;
     if (location.state !== undefined) {
       editPost({
             id: location.state.post.id,
@@ -73,7 +77,7 @@ class PostForm extends Component {
             body,
             category,
           });
-      this.handleRedirect();
+      this.redirectBack();
     } else {
       addPost({
             ...this.state,
@@ -81,14 +85,20 @@ class PostForm extends Component {
           }).then((post) => ({
             posts: posts.concat([post])
           }));
-      this.handleRedirect();
+      this.redirectBack();
     }
   }
 
   render() {
     console.log("iiiii", this.state)
-    const { categories } = this.props;
+    const { location, categories } = this.props;
 
+    let inputButton = null;
+    if (location.state !== undefined) {
+      inputButton = <input type="submit" value="Edit Post" />;
+    } else {
+      inputButton = <input type="submit" value="Add Post" />;
+    }
     return (
       <div>
         <Link to={{ pathname: '/', state: { sorting: 'voteScore' } }}>Close</Link>
@@ -96,22 +106,16 @@ class PostForm extends Component {
           <div className='create-post-details'>
             <label>
               Post Title:
-              <input
-                type="text"
-                name='title'
-                placeholder='Post Title'
-                value={this.state.title}
-                onChange={this.handleTitleChange}
+              <input type="text" name='title' placeholder='Post Title'
+                     value={this.state.title}
+                     onChange={this.handleTitleChange}
               />
             </label>
             <label>
               Description:
-              <textarea
-                type="text"
-                name='body'
-                placeholder='Enter your post here'
-                value={this.state.body}
-                onChange={this.handleBodyChange}
+              <textarea type="text" name='body' placeholder='Enter your post here'
+                        value={this.state.body}
+                        onChange={this.handleBodyChange}
               />
             </label>
             <label>
@@ -128,7 +132,7 @@ class PostForm extends Component {
               Author:
               <input type="text" value={this.state.author} onChange={this.handleAuthorChange} />
             </label>
-            <input type="submit" value="Add Post" />
+            {inputButton}
           </div>
         </form>
       </div>

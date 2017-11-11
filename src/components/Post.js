@@ -45,7 +45,7 @@ class Post extends Component {
           <button id={DISLIKE}>DISLIKE</button>
           <Link
             to={{
-              pathname: `/edit`,
+              pathname: `/Edit Post`,
               state: { post },
             }}
           >

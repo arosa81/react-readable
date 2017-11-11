@@ -8,7 +8,7 @@ export const DOWN_VOTE_POST = 'DOWN_VOTE_POST';
 function receivePosts(posts) {
   return {
     type: RECEIVE_POSTS,
-    posts: posts.filter(post => post.deleted === false),
+    posts: posts.filter((post) => post.deleted === false),
     receivedAt: Date.now(),
   }
 }
@@ -16,7 +16,7 @@ function receivePosts(posts) {
 function addPost(posts) {
   return {
     type: ADD_POST,
-    posts: posts.filter(post => post.deleted === false),
+    posts: posts.filter((post) => post.deleted === false),
     timeStamp: Date.now(),
   }
 }
@@ -24,7 +24,7 @@ function addPost(posts) {
 function editPost(posts) {
   return {
     type: EDIT_POST,
-    posts: posts.filter(post => post.deleted === false),
+    posts: posts.filter((post) => post.deleted === false),
     timeStamp: Date.now(),
   }
 }
@@ -32,7 +32,7 @@ function editPost(posts) {
 function upVotePost(posts) {
   return {
     type: UP_VOTE_POST,
-    posts: posts.filter(post => post.deleted === false),
+    posts: posts.filter((post) => post.deleted === false),
     timeStamp: Date.now(),
   }
 }
@@ -40,7 +40,7 @@ function upVotePost(posts) {
 function downVotePost(posts) {
   return {
     type: DOWN_VOTE_POST,
-    posts: posts.filter(post => post.deleted === false),
+    posts: posts.filter((post) => post.deleted === false),
     timeStamp: Date.now(),
   }
 }
@@ -53,14 +53,14 @@ export const fetchPosts = () => dispatch => (
 export const addNewPost = (post) => dispatch => (
   api.addPost(post)
      .then(() => { api.getPosts()
-                      .then((p) => { dispatch(addPost(p))})
+                      .then((p) => { dispatch(addPost(p)) })
      })
 )
 
 export const editExistingPost = (post) => dispatch => (
   api.editPost(post)
      .then(() => { api.getPosts()
-                      .then((p) => { dispatch(editPost(p))})
+                      .then((p) => { dispatch(editPost(p)) })
      })
 )
 

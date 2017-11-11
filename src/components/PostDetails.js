@@ -7,7 +7,6 @@ import { fetchComments, fetchComment } from '../actions/comments';
 class PostDetails extends Component {
   componentDidMount() {
     const { post } = this.props;
-    console.log("mounting POST in COMMENTS: ", post);
     this.props.queryComments(post.id);
   }
 
@@ -17,10 +16,19 @@ class PostDetails extends Component {
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
     const commentList = comments.map((comment) => (
+
       <div key={comment.id}>
         <div>{comment.body}</div>
         <div>{comment.author}</div>
         <div>{new Date(comment.timestamp).toLocaleTimeString().toString()}</div>
+        <div style={{display: 'inline-block'}} onClick={(e) => {this.handleVote(e)}}>
+          <button id={LIKE}>LIKE</button>
+          <button id={DISLIKE}>DISLIKE</button>
+        </div>
+        <Link to={{ pathname: `/Edit Comment`, state: { post, comment }, }}>
+          <button>Edit Comment</button>
+        </Link>
+        <br/>
         <br/>
       </div>
     ));
@@ -36,8 +44,18 @@ class PostDetails extends Component {
           <button id={LIKE}>LIKE</button>
           <button id={DISLIKE}>DISLIKE</button>
         </div>
+        <Link to={{ pathname: `/Edit Post`, state: { post }, }}>
+          <button>Edit Post</button>
+        </Link>
         <br/>
         <h3>Comments</h3>
+        <div style={{display: 'inline-block'}}>
+          <Link to={{ pathname: `/Add Comment`, state: { post }, }}>
+            <button name='createComment'>New Comment</button>
+          </Link>
+        </div>
+        <br/>
+        <br/>
         {commentList}
       </div>
     )

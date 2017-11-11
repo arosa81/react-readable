@@ -77,9 +77,7 @@ class Category extends Component {
           sort by: <button id="sortPostVote"># of Votes</button> | <button id="sortPostDate">Post Date</button>
         </div>
         <div style={{display: 'inline-block'}}>
-          <Link
-            to={`/create`}
-          >
+          <Link to={`/Add Post`}>
             <button name='createPost'>New Post</button>
           </Link>
         </div>

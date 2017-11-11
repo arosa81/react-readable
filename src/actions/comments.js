@@ -1,6 +1,8 @@
 import * as api from '../utils/api';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 export const RECEIVE_COMMENT = 'RECEIVE_COMMENT';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
 export const UP_VOTE_COMMENT = 'UP_VOTE_COMMENT';
 export const DOWN_VOTE_COMMENT = 'DOWN_VOTE_COMMENT';
 
@@ -20,6 +22,21 @@ function receiveComment (comment) {
   }
 }
 
+function addComment(comments) {
+  return {
+    type: ADD_COMMENT,
+    comments: comments.filter((comment) => comment.deleted === false),
+    timeStamp: Date.now(),
+  }
+}
+
+function editComment(comments) {
+  return {
+    type: EDIT_COMMENT,
+    comments: comments.filter((comment) => comment.deleted === false),
+    timeStamp: Date.now(),
+  }
+}
 
 function upVoteComment(comments) {
   return {
@@ -46,6 +63,20 @@ export const fetchComment = (postID) => dispatch => (
   api.getComment(postID)
      .then((comments) => dispatch(receiveComments(comments)))
 );
+
+export const addNewComment = (comment) => dispatch => (
+  api.addComment(comment)
+     .then(() => { api.getComments()
+                      .then((c) => { dispatch(addNewComment(c)) })
+     })
+)
+
+export const editExistingComment = (comment) => dispatch => (
+  api.editComment(comment)
+     .then(() => { api.getComments()
+                      .then((c) => { dispatch(editComment(c)) })
+     })
+)
 
 export const likeComment = (postID, commentID) => dispatch => (
   api

@@ -9,6 +9,7 @@ import Header from './Header';
 import CategoryList from './CategoryList';
 import Category from './Category';
 import PostForm from './PostForm';
+import CommentForm from './CommentForm';
 import PostDetails from './PostDetails';
 
 
@@ -29,8 +30,11 @@ class App extends Component {
         <Header />
         <Switch>
           <Route exact path='/' render={() => <CategoryList />} />
-          <Route exact path='/create' render={({ match }) => (<PostForm/>)} />
-          <Route exact path='/edit' render={({ match }) => (<PostForm/>)} />
+          <Route exact path='/Add Post' render={({ match }) => (<PostForm/>)} />
+          <Route exact path='/Edit Post' render={({ match }) => (<PostForm/>)} />
+          <Route exact path='/Add Comment' render={({ match }) => (<CommentForm/>)} />
+          <Route exact path='/Edit Comment' render={({ match }) => (<CommentForm/>)} />
+
           <Route exact path='/:categoryPath' render={({ match }) => <Category />} />
           {posts && (
             <Route exact path='/:categoryPath/:postID' render={({ match }) => (
