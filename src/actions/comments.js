@@ -2,6 +2,7 @@ import * as api from '../utils/api';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 export const RECEIVE_COMMENT = 'RECEIVE_COMMENT';
 export const ADD_COMMENT = 'ADD_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
 export const UP_VOTE_COMMENT = 'UP_VOTE_COMMENT';
 export const DOWN_VOTE_COMMENT = 'DOWN_VOTE_COMMENT';
@@ -25,6 +26,14 @@ function receiveComment (comment) {
 function addComment(comments) {
   return {
     type: ADD_COMMENT,
+    comments: comments.filter((comment) => comment.deleted === false),
+    timeStamp: Date.now(),
+  }
+}
+
+function deleteComment(comments) {
+  return {
+    type: DELETE_COMMENT,
     comments: comments.filter((comment) => comment.deleted === false),
     timeStamp: Date.now(),
   }
@@ -75,6 +84,13 @@ export const editExistingComment = (comment) => dispatch => (
   api.editComment(comment)
      .then(() => { api.getComments(comment.parentId)
                       .then((c) => { dispatch(editComment(c)) })
+     })
+)
+
+export const deleteExistingComment = (comment) => dispatch => (
+  api.deleteComment(comment.id)
+     .then(() => { api.getComments(comment.parentId)
+                      .then((c) => { dispatch(deleteComment(c)) })
      })
 )
 

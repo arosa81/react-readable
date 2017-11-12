@@ -4,8 +4,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addNewPost, editExistingPost } from '../actions/posts'
 
-let uid = require('rand-token').uid;
-
 class PostForm extends Component {
   constructor(props) {
     super(props);

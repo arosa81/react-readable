@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { likePost, dislikePost } from '../actions/posts';
-import { fetchComments, fetchComment } from '../actions/comments';
+import { fetchComments, fetchComment, deleteExistingComment } from '../actions/comments';
 
 class PostDetails extends Component {
   componentDidMount() {
@@ -10,9 +10,28 @@ class PostDetails extends Component {
     this.props.queryComments(post.id);
   }
 
+  handleVote = (e) => {
+    const { post } = this.props;
+
+    e.preventDefault();
+    if (e.target.id === 'LIKE') {
+      this.props.voteLikePost(post.id)
+    }
+    else if (e.target.id === 'DISLIKE') {
+      this.props.voteDislikePost(post.id)
+    }
+  }
+
+  handleDeleteComment = (e, comment) => {
+    const { deleteComment } = this.props;
+    console.log("comment: ", comment);
+    e.preventDefault();
+    deleteComment(comment);
+  }
+
   render() {
     const { post, comments } = this.props;
-    console.log(this.props);
+    console.log("POST DETAILS: ", this.props);
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
     const commentList = comments.map((comment) => (
@@ -24,6 +43,7 @@ class PostDetails extends Component {
         <div style={{display: 'inline-block'}} onClick={(e) => {this.handleVote(e)}}>
           <button id={LIKE}>LIKE</button>
           <button id={DISLIKE}>DISLIKE</button>
+          <button onClick={(e) => {this.handleDeleteComment(e, comment)}}>DELETE</button>
         </div>
         <Link to={{ pathname: `/Edit Comment`, state: { post, comment }, }}>
           <button>Edit Comment</button>
@@ -62,8 +82,8 @@ class PostDetails extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  console.log("COMMENTS STATE: ", state);
+function mapStateToProps(state, ownProps) {
+  console.log("COMMENTS OWNPROPS: ", ownProps);
   return {
     categories: state.categoryReducer.categories,
     comments: state.commentReducer.comments,
@@ -75,6 +95,7 @@ function mapDispatchToProps(dispatch) {
     voteLikePost: (post) => dispatch(likePost(post)),
     voteDislikePost: (post) => dispatch(dislikePost(post)),
     queryComments: (postID) => dispatch(fetchComments(postID)),
+    deleteComment: (comment) => dispatch(deleteExistingComment(comment)),
   }
 }
 

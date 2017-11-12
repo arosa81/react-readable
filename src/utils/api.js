@@ -31,6 +31,15 @@ export const addPost = ({ id = Math.random().toString(36).substr(-10), timestamp
       (error) => console.error('getAllPostsAPI - An error occured.', error)
 ))
 
+export const deletePost = (id = '') => (
+  fetch(`${API_URL}/posts/${id}`, {
+    headers: HEADERS,
+    method: 'DELETE',
+   }).then(
+      (response) => {return;},
+      (error) => console.error('delete post - An error occured.', error)
+))
+
 export const editPost = ({ id = '', timestamp = Date.now(), title, body, category }) => (
   fetch(`${API_URL}/posts/${id}`, {
     headers: HEADERS,
@@ -87,6 +96,15 @@ export const addComment = ({ id = Math.random().toString(36).substr(-10), timest
    }).then(
       (response) => {return;},
       (error) => console.error('add comment - An error occured.', error)
+))
+
+export const deleteComment = (commentID = '') => (
+  fetch(`${API_URL}/comments/${commentID}`, {
+    headers: HEADERS,
+    method: 'DELETE',
+   }).then(
+      (response) => {return;},
+      (error) => console.error('delete post - An error occured.', error)
 ))
 
 export const editComment = ({ id = '', timestamp = Date.now(), body }) => (
