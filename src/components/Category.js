@@ -6,7 +6,6 @@ import Post from './Post';
 import CategoryList from './CategoryList';
 import { fetchPosts } from '../actions/posts';
 
-
 class Category extends Component {
 
   constructor(props) {

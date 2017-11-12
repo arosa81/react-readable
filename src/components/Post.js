@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
-import { likePost, dislikePost } from '../actions/posts';
+import { likePost, dislikePost, deleteExistingPost } from '../actions/posts';
 import { withRouter, Link } from 'react-router-dom';
 
 class Post extends Component {
@@ -18,6 +18,12 @@ class Post extends Component {
     else if (e.target.id === 'DISLIKE') {
       this.props.voteDislikePost(post.id)
     }
+  }
+
+  handleDeletePost = (e, post) => {
+    const { deletePost } = this.props;
+    e.preventDefault();
+    deletePost(post);
   }
 
   render() {
@@ -43,6 +49,7 @@ class Post extends Component {
         <div style={{display: 'inline-block'}} onClick={(e) => {this.handleVote(e)}}>
           <button id={LIKE}>LIKE</button>
           <button id={DISLIKE}>DISLIKE</button>
+          <button onClick={(e) => {this.handleDeletePost(e, post)}}>DELETE</button>
           <Link
             to={{
               pathname: `/Edit Post`,
@@ -61,6 +68,7 @@ function mapDispatchToProps(dispatch) {
   return {
     voteLikePost: (post) => dispatch(likePost(post)),
     voteDislikePost: (post) => dispatch(dislikePost(post)),
+    deletePost: (post) => dispatch(deleteExistingPost(post)),
   }
 }
 

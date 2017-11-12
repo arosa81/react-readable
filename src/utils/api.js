@@ -36,7 +36,7 @@ export const deletePost = (id = '') => (
     headers: HEADERS,
     method: 'DELETE',
    }).then(
-      (response) => {return;},
+      (response) => response.json(),//{return;},
       (error) => console.error('delete post - An error occured.', error)
 ))
 
