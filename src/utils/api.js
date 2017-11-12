@@ -72,31 +72,31 @@ export const getComments = (postID = '') => (
       (error) => console.error('getComments - An error occured.', error)
 ))
 
-export const getComment = (postID = '') => (
-  fetch(`${API_URL}/comments/${postID}`, { headers: HEADERS })
+export const getComment = (commentID = '') => (
+  fetch(`${API_URL}/comments/${commentID}`, { headers: HEADERS })
     .then(
       (response) => response.json(),
       (error) => console.error('getComment - An error occured.', error)
 ))
 
-export const addComment = ({ id = Math.random().toString(36).substr(-10), timestamp = Date.now(), body, author, postID = '' }) => (
+export const addComment = ({ id = Math.random().toString(36).substr(-10), timestamp = Date.now(), body, author, parentId }) => (
   fetch(`${API_URL}/comments`, {
     headers: HEADERS,
     method: 'POST',
-    body: JSON.stringify({ id, timestamp, body, author, postID })
+    body: JSON.stringify({ id, timestamp, body, author, parentId })
    }).then(
-      (response) => response.json(),
-      (error) => console.error('getAllPostsAPI - An error occured.', error)
+      (response) => {return;},
+      (error) => console.error('add comment - An error occured.', error)
 ))
 
-export const editComment = ({ id = '', timestamp = Date.now(), body, author }) => (
-  fetch(`${API_URL}/comments`, {
+export const editComment = ({ id = '', timestamp = Date.now(), body }) => (
+  fetch(`${API_URL}/comments/${id}`, {
     headers: HEADERS,
-    method: 'POST',
-    body: JSON.stringify({ id, timestamp, body, author })
+    method: 'PUT',
+    body: JSON.stringify({ id, timestamp, body })
    }).then(
-      (response) => response.json(),
-      (error) => console.error('getAllPostsAPI - An error occured.', error)
+      (response) => {return;},
+      (error) => console.error('edit comment - an error occured.', error)
 ))
 
 export const voteComment = (id = '', voteOption) => (

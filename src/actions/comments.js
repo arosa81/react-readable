@@ -66,14 +66,14 @@ export const fetchComment = (postID) => dispatch => (
 
 export const addNewComment = (comment) => dispatch => (
   api.addComment(comment)
-     .then(() => { api.getComments()
-                      .then((c) => { dispatch(addNewComment(c)) })
+     .then(() => { api.getComments(comment.parentId)
+                      .then((c) => { dispatch(addComment(c)) })
      })
 )
 
 export const editExistingComment = (comment) => dispatch => (
   api.editComment(comment)
-     .then(() => { api.getComments()
+     .then(() => { api.getComments(comment.parentId)
                       .then((c) => { dispatch(editComment(c)) })
      })
 )

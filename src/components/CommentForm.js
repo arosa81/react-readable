@@ -53,29 +53,33 @@ class CommentForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { history, location, addComment, editComment, categories, comments } = this.props;
+    const { location, addComment, editComment, comments } = this.props;
     const { body, author } = this.state;
-    if (location.state !== undefined) {
+    if (location.state.comment !== undefined) {
       editComment({
             id: location.state.comment.id,
             body,
-            author,
+            parentId: location.state.post.id,
           });
       this.redirectBack();
     } else {
       addComment({
             ...this.state,
-          }).then((comment) => ({
-            comments: comments.concat([comment])
-          }));
-      this.handleRedirect();
+            parentId: location.state.post.id,
+          });
+      this.redirectBack();
     }
   }
 
   render() {
-    console.log("iiiii", this.state)
-    const { categories } = this.props;
-
+    console.log("ccccccccc", this.props)
+    const { categories, location } = this.props;
+    let inputButton = null;
+    if (location.state.comment !== undefined) {
+      inputButton = <input type="submit" value="Edit Comment" />;
+    } else {
+      inputButton = <input type="submit" value="Add Comment" />;
+    }
     return (
       <div>
         <Link to={{ pathname: '/', state: { sorting: 'voteScore' } }}>Close</Link>
@@ -92,7 +96,7 @@ class CommentForm extends Component {
               Author:
               <input type="text" value={this.state.author} onChange={this.handleAuthorChange} />
             </label>
-            <input type="submit" value="Add Post" />
+            {inputButton}
           </div>
         </form>
       </div>
@@ -103,7 +107,7 @@ class CommentForm extends Component {
 function mapStateToProps(state, { match }) {
   return {
     categories: state.categoryReducer.categories,
-    posts: state.postReducer.posts,
+    comments: state.categoryReducer.comments || [],
   }
 }
 
