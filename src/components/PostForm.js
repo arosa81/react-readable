@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router'
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addNewPost, editExistingPost } from '../actions/posts'
@@ -13,10 +12,6 @@ class PostForm extends Component {
       author: '',
       category: '',
     };
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleBodyChange = this.handleBodyChange.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -142,6 +137,7 @@ function mapStateToProps(state, { match }) {
   return {
     categories: state.categoryReducer.categories,
     posts: state.postReducer.posts,
+    user: state.userReducer.user,
   }
 }
 

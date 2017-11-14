@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Route, Switch, Link } from 'react-router-dom';
+import { withRouter, Route, Switch } from 'react-router-dom';
 
 import { fetchPosts } from '../actions/posts';
 import { fetchCategories } from '../actions/categories';
@@ -9,13 +9,14 @@ import Header from './Header';
 import CategoryList from './CategoryList';
 import Category from './Category';
 import PostForm from './PostForm';
+import UserNameForm from './UserNameForm';
 import CommentForm from './CommentForm';
 import PostDetails from './PostDetails';
 
 
 class App extends Component {
   componentDidMount() {
-    console.log("lllllllllll: ", this.props)
+    const { user } = this.props;
     this.props.match.params = {
       categoryPath: 'ALL'
     }
@@ -24,12 +25,16 @@ class App extends Component {
   }
 
   render() {
-    const { posts, categories } = this.props;
+    const { posts, user } = this.props;
+    console.log("APPPP", this.props);
     return (
       <div>
-        <Header />
+        {user.userName !== undefined && (
+          <Header />
+        )}
         <Switch>
           <Route exact path='/' render={() => <CategoryList />} />
+          <Route exact path='/addusername' render={({ match }) => (<UserNameForm/>)} />
           <Route exact path='/Add Post' render={({ match }) => (<PostForm/>)} />
           <Route exact path='/Edit Post' render={({ match }) => (<PostForm/>)} />
           <Route exact path='/Add Comment' render={({ match }) => (<CommentForm/>)} />
@@ -50,7 +55,7 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     posts: state.postReducer.posts,
-    categories: state.categoryReducer.categories,
+    user: state.userReducer.user,
   };
 }
 

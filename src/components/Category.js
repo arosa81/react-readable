@@ -6,8 +6,8 @@ import Post from './Post';
 import CategoryList from './CategoryList';
 import { fetchPosts } from '../actions/posts';
 
-class Category extends Component {
 
+class Category extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,8 +16,7 @@ class Category extends Component {
   }
 
   handleSorting = (e) => {
-    const SORT_POST_BY_DATE = 'postDate';
-    const SORT_POST_BY_VOTE = 'voteScore';
+    const SORT_POST_BY_DATE = 'postDate', SORT_POST_BY_VOTE = 'voteScore';
     const { posts } = this.props;
     const { sorting } = this.state;
     if (e === undefined ){

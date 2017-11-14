@@ -46,9 +46,11 @@ class Post extends Component {
         <div>Category: {post.category}</div>
         <div>Vote Score: {post.voteScore}</div>
         <div>Date Posted: {new Date(post.timestamp).toLocaleDateString().toString()}</div>
-        <div style={{display: 'inline-block'}} onClick={(e) => {this.handleVote(e)}}>
-          <button id={LIKE}>LIKE</button>
-          <button id={DISLIKE}>DISLIKE</button>
+        <div style={{display: 'inline-block'}}>
+          <div onClick={(e) => {this.handleVote(e)}}>
+            <button id={LIKE}>LIKE</button>
+            <button id={DISLIKE}>DISLIKE</button>
+          </div>
           <button onClick={(e) => {this.handleDeletePost(e, post)}}>DELETE</button>
           <Link
             to={{

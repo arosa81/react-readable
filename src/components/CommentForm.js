@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router'
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addNewComment, editExistingComment } from '../actions/comments'
