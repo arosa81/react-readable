@@ -1,6 +1,9 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+
+import Comment from './Comment';
+
 import { likePost, dislikePost } from '../actions/posts';
 import { fetchComments, fetchComment, deleteExistingComment } from '../actions/comments';
 
@@ -35,22 +38,7 @@ class PostDetails extends Component {
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
     const commentList = comments.map((comment) => (
-
-      <div key={comment.id}>
-        <div>{comment.body}</div>
-        <div>{comment.author}</div>
-        <div>{new Date(comment.timestamp).toLocaleTimeString().toString()}</div>
-        <div style={{display: 'inline-block'}} onClick={(e) => {this.handleVote(e)}}>
-          <button id={LIKE}>LIKE</button>
-          <button id={DISLIKE}>DISLIKE</button>
-          <button onClick={(e) => {this.handleDeleteComment(e, comment)}}>DELETE</button>
-        </div>
-        <Link to={{ pathname: `/Edit Comment`, state: { post, comment }, }}>
-          <button>Edit Comment</button>
-        </Link>
-        <br/>
-        <br/>
-      </div>
+      <Comment key={comment.id} comment={comment}/>
     ));
     return (
       <div>

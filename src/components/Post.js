@@ -4,8 +4,11 @@ import { likePost, dislikePost, deleteExistingPost } from '../actions/posts';
 import { withRouter, Link } from 'react-router-dom';
 
 class Post extends Component {
-  state = {
-    post: {}
+  constructor(props) {
+    super(props)
+    this.state = {
+      post: {},
+    }
   }
 
   handleVote = (e) => {
@@ -38,9 +41,7 @@ class Post extends Component {
     return (
       <div>
         <br/>
-        <Link
-          to={`/${post.category}/${post.id}`}
-        >
+        <Link to={`/${post.category}/${post.id}`}>
           <div>Title: {post.title}</div>
         </Link>
         <div>Description: {post.body}</div>
@@ -54,12 +55,7 @@ class Post extends Component {
             <button id={DISLIKE}>DISLIKE</button>
           </div>
           <button onClick={(e) => {this.handleDeletePost(e, post)}}>DELETE</button>
-          <Link
-            to={{
-              pathname: `/Edit Post`,
-              state: { post },
-            }}
-          >
+          <Link to={{ pathname: `/Edit Post`, state: { post }, }}>
             <button>Edit Post</button>
           </Link>
         </div>

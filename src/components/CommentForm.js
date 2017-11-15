@@ -16,18 +16,18 @@ class CommentForm extends Component {
   }
 
   componentDidMount() {
-    const { match, location } = this.props
+    const { match, location, user } = this.props
     console.log("pppppppp", this.props);
     const { body, author } = this.state;
     match.path === '/Edit Comment' && (
       this.setState(() => (
           {
             body: location.state.comment.body,
-            author: location.state.comment.author,
+            author: user.userName,
           }
         )))
     match.path === '/Add Comment' && (
-      this.setState(() => ({ body, author })))
+      this.setState(() => ({ body, author: user.userName })))
   }
 
   handleBodyChange = (e) => {
@@ -91,10 +91,6 @@ class CommentForm extends Component {
                         onChange={this.handleBodyChange}
               />
             </label>
-            <label>
-              Author:
-              <input type="text" value={this.state.author} onChange={this.handleAuthorChange} />
-            </label>
             {inputButton}
           </div>
         </form>
@@ -107,6 +103,7 @@ function mapStateToProps(state, { match }) {
   return {
     categories: state.categoryReducer.categories,
     comments: state.categoryReducer.comments || [],
+    user: state.userReducer.user,
   }
 }
 

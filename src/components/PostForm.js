@@ -15,7 +15,7 @@ class PostForm extends Component {
   }
 
   componentDidMount() {
-    const { match, location } = this.props
+    const { match, location, user, categories } = this.props
     console.log("pppppppp", this.props);
     const { title, body, category, author } = this.state;
     match.path === '/Edit Post' && (
@@ -23,12 +23,12 @@ class PostForm extends Component {
           {
             title: location.state.post.title,
             body: location.state.post.body,
-            author: location.state.post.author,
+            author: user.userName,
             category: location.state.post.category,
           }
         )))
     match.path === '/Add Post' && (
-      this.setState(() => ({title, body, category, author})))
+      this.setState(() => ({title, body, category: categories[0].name, author: user.userName})))
   }
 
   handleTitleChange = (e) => {
@@ -61,7 +61,7 @@ class PostForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { history, location, addPost, editPost, categories, posts } = this.props;
+    const { history, location, addPost, editPost, posts } = this.props;
     const { title, body, author, category } = this.state;
     if (location.state !== undefined) {
       editPost({
@@ -93,7 +93,7 @@ class PostForm extends Component {
     }
     return (
       <div>
-        <Link to={{ pathname: '/', state: { sorting: 'voteScore' } }}>Close</Link>
+        <Link to={{ pathname: '/' }}>Close</Link>
         <form onSubmit={this.handleSubmit} >
           <div className='create-post-details'>
             <label>
@@ -119,10 +119,6 @@ class PostForm extends Component {
                   ))
                 }
               </select>
-            </label>
-            <label>
-              Author:
-              <input type="text" value={this.state.author} onChange={this.handleAuthorChange} />
             </label>
             {inputButton}
           </div>

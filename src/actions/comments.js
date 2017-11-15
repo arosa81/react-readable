@@ -94,18 +94,18 @@ export const deleteExistingComment = (comment) => dispatch => (
      })
 )
 
-export const likeComment = (postID, commentID) => dispatch => (
+export const likeComment = (comment) => dispatch => (
   api
-    .voteComment(commentID, 'upVote')
-    .then(() => { api.getComments(postID)
-                     .then((comment) => { dispatch(upVoteComment(comment)) })
+    .voteComment(comment.id, 'upVote')
+    .then(() => { api.getComments(comment.parentId)
+                     .then((c) => { dispatch(upVoteComment(c)) })
                 })
 );
 
-export const dislikeComment = (postID, commentID) => dispatch => (
+export const dislikeComment = (comment) => dispatch => (
   api
-    .voteComment(commentID, 'downVote')
-    .then(() => { api.getComments(postID)
-                     .then((comment) => { dispatch(downVoteComment(comment)) })
+    .voteComment(comment.id, 'downVote')
+    .then(() => { api.getComments(comment.parentId)
+                     .then((c) => { dispatch(downVoteComment(c)) })
                 })
 );

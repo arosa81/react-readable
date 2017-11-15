@@ -11,19 +11,8 @@ class Category extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sorting: '-voteScore',
+      sorting: '',
     }
-  }
-
-  sortByDefault = () => {
-    this.state.sorting === 'voteScore' && (
-      this.setState(() => ({ sorting: 'voteScore' }))
-    )
-  }
-
-  sortByDate = () => {
-    this.setState(() => ({ sorting: 'postDate' }));
-    this.props.posts.sort(sortBy('-timestamp', 'title'));
   }
 
   handleSorting = (e) => {
@@ -40,7 +29,7 @@ class Category extends Component {
     const { sorting } = this.state;
     let showingPostList;
     if (match.path === '/') {
-        showingPostList = posts;
+      showingPostList = posts;
     } else if (match.params.categoryPath !== undefined) {
       showingPostList = posts.filter((p) => p.category === match.params.categoryPath);
     }
