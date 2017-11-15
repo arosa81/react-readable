@@ -14,6 +14,8 @@ class Post extends Component {
     e.preventDefault();
     if (e.target.id === 'LIKE') {
       this.props.voteLikePost(post.id)
+      setTimeout(() => {
+      }, 200)
     }
     else if (e.target.id === 'DISLIKE') {
       this.props.voteDislikePost(post.id)

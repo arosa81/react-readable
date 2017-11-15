@@ -11,77 +11,56 @@ class Category extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sorting: '',
+      sorting: '-voteScore',
     }
+  }
+
+  sortByDefault = () => {
+    this.state.sorting === 'voteScore' && (
+      this.setState(() => ({ sorting: 'voteScore' }))
+    )
+  }
+
+  sortByDate = () => {
+    this.setState(() => ({ sorting: 'postDate' }));
+    this.props.posts.sort(sortBy('-timestamp', 'title'));
   }
 
   handleSorting = (e) => {
-    const SORT_POST_BY_DATE = 'postDate', SORT_POST_BY_VOTE = 'voteScore';
-    const { posts } = this.props;
-    const { sorting } = this.state;
-    if (e === undefined ){
-      this.setState(() => ({ sorting: SORT_POST_BY_VOTE }));
-      posts.sort(sortBy('-voteScore', 'title'));
-    }
-    else {
-      e.preventDefault();
-      if (e.target.id === 'sortPostDate') {
-        this.setState(() => ({ sorting: SORT_POST_BY_DATE }));
-        posts.sort(sortBy('-timestamp', 'title'));
-      }
-      else {
-        this.setState(() => ({ sorting: SORT_POST_BY_VOTE }));
-        posts.sort(sortBy('-voteScore', 'title'));
-      }
-    }
+    this.setState({ sorting: e.target.id })
   }
 
   componentDidMount() {
-    this.handleSorting();
+    this.setState({ sorting: '-voteScore' });
   }
 
   render() {
     const { posts, categories, match } = this.props;
-    console.log("oooooo", this.props);
-    const { sorting, modalOpen } = this.state;
-    const defaultPostList = match.path === '/' && (
-      <div>
-        <h2 className="category-title-content">ALL</h2>
-        {posts.map((post) => (
-          <Post
-            key={post.id}
-            post={post}
-          />
-        ))}
-      </div>)
-
-    const filteredPostList = match.params.categoryPath !== undefined && (
-      <div>
-        <h2 className="category-title-content">{match.params.categoryPath}</h2>
-        {posts.filter((p) => p.category === match.params.categoryPath)
-              .map((post) => (
-                <Post
-                  key={post.id}
-                  post={post}
-                />
-              ))}
-      </div>)
-      // sorting === 'voteScore' ? posts.sort(sortBy('-voteScore', 'title'))
-      //                         : posts.sort(sortBy('-timestamp', 'title'))
-
+    console.log("oooooo", this.state);
+    const { sorting } = this.state;
+    let showingPostList;
+    if (match.path === '/') {
+        showingPostList = posts;
+    } else if (match.params.categoryPath !== undefined) {
+      showingPostList = posts.filter((p) => p.category === match.params.categoryPath);
+    }
+    showingPostList.sort(sortBy(sorting, 'title'))
     return (
       <div>
         <div onClick={(e) => {this.handleSorting(e)}}>
-          sort by: <button id="sortPostVote"># of Votes</button> | <button id="sortPostDate">Post Date</button>
+          sort by: <button id="-voteScore"># of Votes</button> | <button id="-timestamp">Post Date</button>
         </div>
         <div style={{display: 'inline-block'}}>
           <Link to={`/Add Post`}>
             <button name='createPost'>New Post</button>
           </Link>
         </div>
-        { this.handleSorting }
-        { defaultPostList }
-        { filteredPostList }
+        <div>
+            <h2 className="category-title-content">{match.params.categoryPath}</h2>
+            {showingPostList.map((post) => (
+                                <Post key={post.id} post={post} />
+                              ))}
+          </div>
       </div>
     )
   }

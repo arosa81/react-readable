@@ -116,7 +116,7 @@ class PostForm extends Component {
               <select value={this.state.category} onChange={this.handleCategoryChange}>
                 {
                   categories.map((category) => (
-                    <option value={category.name}>{category.name}</option>
+                    <option key={category.path} value={category.name}>{category.name}</option>
                   ))
                 }
               </select>
