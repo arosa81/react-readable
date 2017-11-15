@@ -74,7 +74,6 @@ class PostForm extends Component {
     } else {
       addPost({
             ...this.state,
-            category: categories[0].name,
           }).then((post) => ({
             posts: posts.concat([post])
           }));
@@ -116,7 +115,7 @@ class PostForm extends Component {
               <select value={this.state.category} onChange={this.handleCategoryChange}>
                 {
                   categories.map((category) => (
-                    <option key={category.path} value={category.name}>{category.name}</option>
+                    <option key={category.path} value={category.path}>{category.name}</option>
                   ))
                 }
               </select>
