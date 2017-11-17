@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { submitUser } from '../actions/user';
 
+
 class UserNameForm extends Component {
   constructor(props) {
     super(props);
@@ -43,12 +44,12 @@ class UserNameForm extends Component {
           <div>
             <label>
               User Name:
-              <input type="text" name='userNameInput' placeholder='Enter a user name'
+              <input required type="text" name='userNameInput' placeholder='Enter a user name'
                      value={this.state.userName}
                      onChange={this.handleUserNameChange}
               />
             </label>
-            <input type="submit" value="Submit" />
+            <input className="btn btn-primary" type="submit" value="Submit" />
           </div>
         </form>
       </div>

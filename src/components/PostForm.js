@@ -48,8 +48,8 @@ class PostForm extends Component {
   }
 
   validate = () => {
-    const { title, body, author, category } = this.state;
-    return title !== '' && body !== '' && author !== '' && category !== '' ;
+    const { title, body } = this.state;
+    return title !== '' && body !== '';
   };
 
   redirectBack = () => {
@@ -63,21 +63,23 @@ class PostForm extends Component {
     e.preventDefault();
     const { history, location, addPost, editPost, posts } = this.props;
     const { title, body, author, category } = this.state;
-    if (location.state !== undefined) {
-      editPost({
-            id: location.state.post.id,
-            title,
-            body,
-            category,
-          });
-      this.redirectBack();
-    } else {
-      addPost({
-            ...this.state,
-          }).then((post) => ({
-            posts: posts.concat([post])
-          }));
-      this.redirectBack();
+    if (this.validate()) {
+      if (location.state !== undefined) {
+        editPost({
+              id: location.state.post.id,
+              title,
+              body,
+              category,
+            });
+        this.redirectBack();
+      } else {
+        addPost({
+              ...this.state,
+            }).then((post) => ({
+              posts: posts.concat([post])
+            }));
+        this.redirectBack();
+      }
     }
   }
 
@@ -98,14 +100,14 @@ class PostForm extends Component {
           <div className='create-post-details'>
             <label>
               Post Title:
-              <input type="text" name='title' placeholder='Post Title'
+              <input required type="text" name='title' placeholder='Post Title'
                      value={this.state.title}
                      onChange={this.handleTitleChange}
               />
             </label>
             <label>
               Description:
-              <textarea type="text" name='body' placeholder='Enter your post here'
+              <textarea required type="text" name='body' placeholder='Enter your post here'
                         value={this.state.body}
                         onChange={this.handleBodyChange}
               />

@@ -7,10 +7,13 @@ import Category from './Category';
 class CategoryList extends Component {
 
   render() {
-    const { user } = this.props;
+    const { categoryPath, user } = this.props;
     console.log("CATEGORY LIST: ", this.props);
     return (
       <div>
+        {categoryPath === '/' && (
+          <h2 className="category-title-content">All Posts</h2>
+        )}
         {user.userName === undefined && (
           <Redirect to='/addusername' />
         )}

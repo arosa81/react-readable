@@ -6,7 +6,6 @@ import Post from './Post';
 import CategoryList from './CategoryList';
 import { fetchPosts } from '../actions/posts';
 
-
 class Category extends Component {
   constructor(props) {
     super(props);
@@ -36,16 +35,25 @@ class Category extends Component {
     showingPostList.sort(sortBy(sorting, 'title'))
     return (
       <div>
-        <div onClick={(e) => {this.handleSorting(e)}}>
-          sort by: <button id="-voteScore"># of Votes</button> | <button id="-timestamp">Post Date</button>
-        </div>
-        <div style={{display: 'inline-block'}}>
+        <h2>{match.params.categoryPath}</h2>
+        <div className="btn-toolbar justify-content-between">
           <Link to={`/Add Post`}>
-            <button name='createPost'>New Post</button>
+            <button className="btn btn-success btn-sm" name='createPost'>
+              <i className="fa fa-plus" aria-hidden="true"></i> New Post</button>
           </Link>
+          <div className="btn-group btn-group-sm" onClick={(e) => {this.handleSorting(e)}}>
+            <p>
+              <i className="fa fa-sort" aria-hidden="true"></i> Sort By:
+              <a className="btn btn-secondary btn-sm" href="#" id="-voteScore">
+                <i className="fa fa-sort-numeric-desc" title="Align Left"></i> Votes
+              </a>
+              <a className="btn btn-secondary btn-sm" href="#" id="-timestamp">
+                <i className="fa fa-sort-amount-desc" title="Align Right"></i> Date
+              </a>
+            </p>
+          </div>
         </div>
         <div>
-            <h2 className="category-title-content">{match.params.categoryPath}</h2>
             {showingPostList.map((post) => (
                                 <Post key={post.id} post={post} />
                               ))}

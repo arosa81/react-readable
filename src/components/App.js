@@ -13,7 +13,6 @@ import UserNameForm from './UserNameForm';
 import CommentForm from './CommentForm';
 import PostDetails from './PostDetails';
 
-
 class App extends Component {
   componentDidMount() {
     const { user } = this.props;
@@ -26,27 +25,30 @@ class App extends Component {
 
   render() {
     const { posts, user } = this.props;
-    console.log("APPPP", this.props);
     return (
       <div>
         {user.userName !== undefined && (
           <Header />
         )}
-        <Switch>
-          <Route exact path='/' render={() => <CategoryList />} />
-          <Route exact path='/addusername' render={({ match }) => (<UserNameForm/>)} />
-          <Route exact path='/Add Post' render={({ match }) => (<PostForm/>)} />
-          <Route exact path='/Edit Post' render={({ match }) => (<PostForm/>)} />
-          <Route exact path='/Add Comment' render={({ match }) => (<CommentForm/>)} />
-          <Route exact path='/Edit Comment' render={({ match }) => (<CommentForm/>)} />
+        <div className="container">
+          <div className="row justify-content-sm-center">
+            <Switch>
+              <Route exact path='/' render={() => <CategoryList />} />
+              <Route exact path='/addusername' render={({ match }) => (<UserNameForm/>)} />
+              <Route exact path='/Add Post' render={({ match }) => (<PostForm/>)} />
+              <Route exact path='/Edit Post' render={({ match }) => (<PostForm/>)} />
+              <Route exact path='/Add Comment' render={({ match }) => (<CommentForm/>)} />
+              <Route exact path='/Edit Comment' render={({ match }) => (<CommentForm/>)} />
 
-          <Route exact path='/:categoryPath' render={({ match }) => <Category />} />
-          {posts && (
-            <Route exact path='/:categoryPath/:postID' render={({ match }) => (
-              <PostDetails post={posts.find(p => p.id === match.params.postID)}/>
-            )}/>
-          )}
-        </Switch>
+              <Route exact path='/:categoryPath' render={({ match }) => <Category />} />
+              {posts && (
+                <Route exact path='/:categoryPath/:postID' render={({ match }) => (
+                    <PostDetails post={posts.find(p => p.id === match.params.postID)}/>
+                  )}/>
+                )}
+            </Switch>
+          </div>
+        </div>
       </div>
     )
   }
