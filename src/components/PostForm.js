@@ -23,12 +23,12 @@ class PostForm extends Component {
           {
             title: location.state.post.title,
             body: location.state.post.body,
-            author: user.userName,
+            author: user,
             category: location.state.post.category,
           }
         )))
     match.path === '/Add Post' && (
-      this.setState(() => ({title, body, category: categories[0].name, author: user.userName})))
+      this.setState(() => ({title, body, category: categories[0].name, author: user})))
   }
 
   handleTitleChange = (e) => {
@@ -110,6 +110,11 @@ class PostForm extends Component {
               <textarea required type="text" name='body' placeholder='Enter your post here'
                         value={this.state.body}
                         onChange={this.handleBodyChange}
+                        style={{
+                          width: '300px',
+                          height: '200px',
+                          border: '1px solid #ccc',
+                        }}
               />
             </label>
             <label>

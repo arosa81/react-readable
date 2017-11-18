@@ -67,6 +67,7 @@ function mapStateToProps(state, { match }) {
   return {
     posts: state.postReducer.posts,
     categories: state.categoryReducer.categories,
+    user: state.userReducer.user,
   };
 }
 

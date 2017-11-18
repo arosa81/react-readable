@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Grid, Row, Nav, NavItem } from 'react-bootstrap'
+import { Grid, Row, Nav, NavItem } from 'react-bootstrap';
 
 class Header extends Component {
   toggleActiveElement = (e) => {
@@ -15,14 +15,14 @@ class Header extends Component {
   render() {
     const { categories } = this.props;
     const categoriesList =
-    categories.map((category, i) => (
-      <Link to={`/${category.path}`} className="nav-item nav-link" key={i}>
-        <div name={category.path} >{category.name}</div>
-      </Link>
-    ))
+      categories.map((category, i) => (
+        <Link to={`/${category.path}`} className="nav-item nav-link" key={i}>
+          <div name={category.path} >{category.name}</div>
+        </Link>
+      ))
     return (
       <div>
-        <nav className="navbar navbar-expand navbar-dark bg-dark flex-column flex-md-row bd-navbar"
+        <nav className="fixed-top navbar navbar-expand navbar-dark bg-dark flex-column flex-md-row bd-navbar"
               style={{'backgroundColor': '#37474f !important'}}
               onClick={this.toggleActiveElement}>
           <div className="navbar-nav mr-auto">
@@ -33,6 +33,7 @@ class Header extends Component {
             { categoriesList }
           </div>
         </nav>
+        <br/>
       </div>
     )
   }

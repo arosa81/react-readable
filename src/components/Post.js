@@ -32,7 +32,6 @@ class Post extends Component {
     const { deletePost } = this.props;
     e.preventDefault();
     deletePost(post);
-    /*new Date(post.timestamp).toLocaleDateString().toString()*/
   }
 
   render() {
@@ -61,16 +60,17 @@ class Post extends Component {
             </div>
             <p className="badge badge-pill badge-info">{post.category}</p>
           </div>
-          <p className="card-text">{post.body}</p>
+          <textarea readOnly className="card-text container" value={post.body}
+                    style={{border: 'none'}}></textarea>
           <p>Votes <span className="badge badge-pill badge-secondary">{post.voteScore}</span></p>
-          <ButtonGroup className="btn-group btn-group-sm" role="group" onClick={(e) => {this.handleVote(e)}}>
+          <div className="btn-group btn-group-sm" role="group" onClick={(e) => {this.handleVote(e)}}>
             <button className="btn btn-outline-success" id={LIKE}>
               <i className="fa fa-thumbs-up" id={LIKE}></i>
             </button>
             <button className="btn btn-outline-danger" id={DISLIKE}>
               <i className="fa fa-thumbs-down" id={DISLIKE}></i>
             </button>
-          </ButtonGroup>
+          </div>
         </div>
       </div>
     )

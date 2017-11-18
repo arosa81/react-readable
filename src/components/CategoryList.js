@@ -14,9 +14,7 @@ class CategoryList extends Component {
         {categoryPath === '/' && (
           <h2 className="category-title-content">All Posts</h2>
         )}
-        {user.userName === undefined && (
-          <Redirect to='/addusername' />
-        )}
+        {user === '' && <Redirect to='/addusername' />}
         <Category />
         <br/>
       </div>

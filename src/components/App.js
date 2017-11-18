@@ -25,11 +25,12 @@ class App extends Component {
 
   render() {
     const { posts, user } = this.props;
+    console.log("USER APP", user);
     return (
       <div>
-        {user.userName !== undefined && (
-          <Header />
-        )}
+        {user === undefined && <Header />}
+        {user !== '' && <Header />}
+        <div style={{height: '50px'}}></div>
         <div className="container">
           <div className="row justify-content-sm-center">
             <Switch>
