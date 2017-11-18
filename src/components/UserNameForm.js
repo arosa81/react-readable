@@ -39,7 +39,7 @@ class UserNameForm extends Component {
       e.preventDefault();
       e.stopPropagation();
     } else {
-    this.handleFormErrorChange('false');
+      this.handleFormErrorChange('false');
     }
     form.classList.add('was-validated');
   }
@@ -62,16 +62,16 @@ class UserNameForm extends Component {
           Enter a user name that you would like to use throughout the app.
         </h4>
         <br/>
-        <div>
-          <label>User Name:</label>
+        <div className='form-group'>
+          <label htmlFor="userNameInput">User Name:</label>
           <input required type="text" className="form-control" id='userNameInput'
                  placeholder='Enter a user name'
                  value={this.state.userName}
                  onChange={this.handleUserNameChange}
           />
-          <p className="invalid-feedback"> Please provide a username.</p><br/>
-          <input className="btn btn-primary" type="submit" value="Submit" />
+          <p className="invalid-feedback"> Please provide a username.</p>
         </div>
+        <input className="btn btn-primary" type="submit" value="Submit" />
       </form>
     )
   }

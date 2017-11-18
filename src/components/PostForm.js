@@ -11,6 +11,7 @@ class PostForm extends Component {
       body: '',
       author: '',
       category: '',
+      formError: '',
     };
   }
 
@@ -47,10 +48,45 @@ class PostForm extends Component {
     this.setState({ category: e.target.value });
   }
 
-  validate = () => {
-    const { title, body } = this.state;
-    return title !== '' && body !== '';
-  };
+  handleFormErrorChange = (value) => {
+    this.setState({formError: value})
+  }
+
+  trimfield = (str) => {
+    return str.replace(/^\s+|\s+$/g,'');
+  }
+
+  validate = (e) => {
+    const { location, addPost, editPost, posts } = this.props;
+    const { title, body, category } = this.state;
+
+    let form = document.getElementById('PostForm');
+    if (form.checkValidity() === false) {
+      this.handleFormErrorChange('true');
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      this.handleFormErrorChange('false');
+      if (location.state !== undefined) {
+          editPost({
+            id: location.state.post.id,
+            title,
+            body,
+            category,
+          });
+          this.redirectBack();
+      } else {
+          addPost({
+                ...this.state,
+              }).then((post) => ({
+                posts: posts.concat([post])
+              }));
+          this.redirectBack();
+        }
+
+    }
+    form.classList.add('was-validated');
+  }
 
   redirectBack = () => {
     const { history } = this.props;
@@ -61,26 +97,7 @@ class PostForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { history, location, addPost, editPost, posts } = this.props;
-    const { title, body, author, category } = this.state;
-    if (this.validate()) {
-      if (location.state !== undefined) {
-        editPost({
-              id: location.state.post.id,
-              title,
-              body,
-              category,
-            });
-        this.redirectBack();
-      } else {
-        addPost({
-              ...this.state,
-            }).then((post) => ({
-              posts: posts.concat([post])
-            }));
-        this.redirectBack();
-      }
-    }
+    this.validate(e);
   }
 
   render() {
@@ -89,46 +106,53 @@ class PostForm extends Component {
 
     let inputButton = null;
     if (location.state !== undefined) {
-      inputButton = <input type="submit" value="Edit Post" />;
+      inputButton = <input id="editPostInput" className="btn btn-primary" type="submit" value="Edit Post" />;
     } else {
-      inputButton = <input type="submit" value="Add Post" />;
+      inputButton = <input id="addPostInput" className="btn btn-primary" type="submit" value="Add Post" />;
     }
     return (
       <div>
-        <Link to={{ pathname: '/' }}>Close</Link>
-        <form onSubmit={this.handleSubmit} >
-          <div className='create-post-details'>
-            <label>
-              Post Title:
-              <input required type="text" name='title' placeholder='Post Title'
-                     value={this.state.title}
-                     onChange={this.handleTitleChange}
-              />
-            </label>
-            <label>
-              Description:
-              <textarea required type="text" name='body' placeholder='Enter your post here'
-                        value={this.state.body}
-                        onChange={this.handleBodyChange}
-                        style={{
-                          width: '300px',
-                          height: '200px',
-                          border: '1px solid #ccc',
-                        }}
-              />
-            </label>
-            <label>
-              Pick your category:
-              <select value={this.state.category} onChange={this.handleCategoryChange}>
-                {
-                  categories.map((category) => (
-                    <option key={category.path} value={category.path}>{category.name}</option>
-                  ))
-                }
-              </select>
-            </label>
-            {inputButton}
+        <form id="PostForm" onSubmit={this.handleSubmit} noValidate>
+          <Link className="text-danger" to={{ pathname: '/' }}>
+            <i className="fa fa-window-close fa-lg" aria-hidden="true"></i>
+          </Link>
+          <div className='form-group'>
+            <label htmlFor="titleInput">Post Title:</label>
+            <input required type="text" className="form-control" id='titleInput'
+                   placeholder='Post Title'
+                   value={this.state.title}
+                   onChange={this.handleTitleChange}
+            />
+            <p className="invalid-feedback"> Please provide a title.</p>
           </div>
+          <div className='form-group'>
+            <label htmlFor="bodytarea">Description:</label>
+            <textarea required type="text" className="form-control" id='bodytarea'
+                      placeholder='Enter your post here'
+                      value={this.state.body}
+                      onChange={this.handleBodyChange}
+                      style={{
+                        width: '300px',
+                        height: '200px',
+                        border: '1px solid #ccc',
+                      }}
+            />
+          <p className="invalid-feedback"> Please provide some details.</p>
+          </div>
+          <div className='form-group'>
+            <label htmlFor="categorySelect">Pick your category:</label>
+            <select className="form-control"
+                    id="categorySelect"
+                    value={this.state.category}
+                    onChange={this.handleCategoryChange}>
+              {
+                categories.map((category) => (
+                  <option key={category.path} value={category.path}>{category.name}</option>
+                ))
+              }
+            </select>
+          </div>
+          {inputButton}
         </form>
       </div>
     )
