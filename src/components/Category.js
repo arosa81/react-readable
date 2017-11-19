@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import sortBy from 'sort-by';
 import Post from './Post';
-import CategoryList from './CategoryList';
 import { fetchPosts } from '../actions/posts';
 
 class Category extends Component {

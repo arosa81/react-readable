@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { withRouter, Link, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { submitUser } from '../actions/user';
-
-import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
-
 
 class UserNameForm extends Component {
   constructor(props) {

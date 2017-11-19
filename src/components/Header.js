@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { Grid, Row, Nav, NavItem } from 'react-bootstrap';
-
 class Header extends Component {
   toggleActiveElement = (e) => {
     e.preventDefault();

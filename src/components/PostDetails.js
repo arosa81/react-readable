@@ -5,7 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import Comment from './Comment';
 
 import { likePost, dislikePost } from '../actions/posts';
-import { fetchComments, fetchComment, deleteExistingComment } from '../actions/comments';
+import { fetchComments, deleteExistingComment } from '../actions/comments';
 
 import sortBy from 'sort-by';
 import moment from 'moment';

@@ -22,6 +22,6 @@ In another terminal:
 git clone https://github.com/arosa81/react-readable.git
 cd readable
 npm install OR yarn install
-npm start OR yarn start
+npm start OR yarn run start
 ```
 **If the app doesn't automatically open in your default browser, navigate to (http://localhost:3000)**

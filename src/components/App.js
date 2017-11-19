@@ -15,7 +15,6 @@ import PostDetails from './PostDetails';
 
 class App extends Component {
   componentDidMount() {
-    const { user } = this.props;
     this.props.match.params = {
       categoryPath: 'ALL'
     }
