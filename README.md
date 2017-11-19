@@ -9,17 +9,17 @@ From Udacity:
 This app requires an Udacity provided backend API server: (https://github.com/udacity/reactnd-project-readable-starter)
 
 ## Installation
-Install and run API servers
+Install and run API servers: https://github.com/udacity/reactnd-project-readable-starter.git
 ```
-git clone (https://github.com/udacity/reactnd-project-readable-starter.git)
+git clone https://github.com/udacity/reactnd-project-readable-starter.git
 cd api-server
 npm install
 node server.js
 ```
-Install and run apps
+Install and run apps: https://github.com/arosa81/react-readable.git
 ```
 In another terminal:
-git clone (https://github.com/arosa81/react-readable.git)
+git clone https://github.com/arosa81/react-readable.git
 cd readable
 npm install OR yarn install
 npm start OR yarn start
