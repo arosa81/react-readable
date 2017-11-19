@@ -3,17 +3,17 @@ import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Category from './Category';
+import UserNameForm from './UserNameForm';
 
 class CategoryList extends Component {
-
   render() {
     const { categoryPath, user } = this.props;
+    if (user === '') {return (<UserNameForm />)}
     return (
       <div>
         {categoryPath === '/' && (
           <h2 className="category-title-content">All Posts</h2>
         )}
-        {user === '' && <Redirect to='/addusername' />}
         <Category />
         <br/>
       </div>

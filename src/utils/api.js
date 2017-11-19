@@ -36,7 +36,7 @@ export const deletePost = (id = '') => (
     headers: HEADERS,
     method: 'DELETE',
    }).then(
-      (response) => response.json(),//{return;},
+      (response) => {return;},
       (error) => console.error('delete post - An error occured.', error)
 ))
 
@@ -46,7 +46,7 @@ export const editPost = ({ id = '', timestamp = Date.now(), title, body, categor
     method: 'PUT',
     body: JSON.stringify({ id, timestamp, title, body, category, })
    }).then(
-      (response) => response.json(),
+      (response) => {return;},
       (error) => console.error('getAllPostsAPI - An error occured.', error)
 ))
 

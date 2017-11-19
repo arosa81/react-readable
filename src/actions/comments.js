@@ -70,7 +70,7 @@ export const fetchComments = (postID) => dispatch => (
 
 export const fetchComment = (postID) => dispatch => (
   api.getComment(postID)
-     .then((comments) => dispatch(receiveComments(comments)))
+     .then((comment) => dispatch(receiveComment(comment)))
 );
 
 export const addNewComment = (comment) => dispatch => (

@@ -36,7 +36,6 @@ class Post extends Component {
 
   render() {
     const { post } = this.props;
-    console.log(this.props);
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
     return (
@@ -73,6 +72,7 @@ class Post extends Component {
                 <i className="fa fa-thumbs-down" id={DISLIKE}></i>
               </button>
             </div>
+            <div className="text-dark">{post.commentCount} Comments</div>
           </div>
         </div>
       </div>

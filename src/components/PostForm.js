@@ -18,6 +18,16 @@ class PostForm extends Component {
   componentDidMount() {
     const { match, location, user, categories } = this.props
     const { title, body, category, author } = this.state;
+    let fromCategory;
+    if (location.state !== undefined) {
+      if (location.state.fromCategory !== undefined) {
+        fromCategory = location.state.fromCategory;
+      } else {
+        fromCategory = categories[0].name;
+      }
+    } else {
+      fromCategory = categories[0].name;
+    }
     match.path === '/Edit Post' && (
       this.setState(() => (
           {
@@ -28,7 +38,7 @@ class PostForm extends Component {
           }
         )))
     match.path === '/Add Post' && (
-      this.setState(() => ({title, body, category: categories[0].name, author: user})))
+      this.setState(() => ({title, body, category: fromCategory, author: user})))
   }
 
   handleTitleChange = (e) => {
@@ -62,7 +72,7 @@ class PostForm extends Component {
       e.stopPropagation();
     } else {
       this.handleFormErrorChange('false');
-      if (location.state !== undefined) {
+      if (location.pathname === '/Edit Post') {
           editPost({
             id: location.state.post.id,
             title,
@@ -73,9 +83,7 @@ class PostForm extends Component {
       } else {
           addPost({
                 ...this.state,
-              }).then((post) => ({
-                posts: posts.concat([post])
-              }));
+              })
           this.redirectBack();
         }
     }
@@ -96,9 +104,8 @@ class PostForm extends Component {
 
   render() {
     const { location, categories } = this.props;
-
     let inputButton = null;
-    if (location.state !== undefined) {
+    if (location.pathname === '/Edit Post') {
       inputButton = <input id="editPostInput" className="btn btn-primary" type="submit" value="Edit Post" />;
     } else {
       inputButton = <input id="addPostInput" className="btn btn-primary" type="submit" value="Add Post" />;

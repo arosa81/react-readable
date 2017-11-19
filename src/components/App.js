@@ -12,6 +12,7 @@ import PostForm from './PostForm';
 import UserNameForm from './UserNameForm';
 import CommentForm from './CommentForm';
 import PostDetails from './PostDetails';
+import NoItem from './NoItem';
 
 class App extends Component {
   componentDidMount() {
@@ -24,6 +25,7 @@ class App extends Component {
 
   render() {
     const { posts, user } = this.props;
+    let matchingPost;
     return (
       <div>
         {user === undefined && <Header />}
@@ -38,13 +40,12 @@ class App extends Component {
               <Route exact path='/Edit Post' render={({ match }) => (<PostForm/>)} />
               <Route exact path='/Add Comment' render={({ match }) => (<CommentForm/>)} />
               <Route exact path='/Edit Comment' render={({ match }) => (<CommentForm/>)} />
+              <Route exact path="/noitem" render={({ match }) => (<NoItem />)} />
 
-              <Route exact path='/:categoryPath' render={({ match }) => <Category />} />
-              {posts && (
-                <Route exact path='/:categoryPath/:postID' render={({ match }) => (
-                    <PostDetails post={posts.find(p => p.id === match.params.postID)}/>
-                  )}/>
-                )}
+              <Route exact path='/:categoryPath' render={() => <Category />} />
+              <Route exact path='/:categoryPath/:postID' render={({ match }) => (
+                    <PostDetails postLink={`/${match.params.categoryPath}/${match.params.postID}`}/>
+                )}/>
             </Switch>
           </div>
         </div>
@@ -53,7 +54,7 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, { match }) {
   return {
     posts: state.postReducer.posts,
     user: state.userReducer.user,
