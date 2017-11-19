@@ -26,7 +26,6 @@ class UserNameForm extends Component {
 
   redirectHome = () => {
     const { history } = this.props;
-    console.log("REDIRECTING HOME");
     setTimeout(() => {
       this.state.formError === 'false' && history.push('/');
     }, 200)
@@ -54,8 +53,6 @@ class UserNameForm extends Component {
 
   render() {
     const { user } = this.props;
-    console.log("USER PROPPPPS", this.props);
-    console.log("USER STATE", this.state);
     return (
       <form id="userNameForm" onSubmit={this.handleSubmit} noValidate>
         <h4 className="alert alert-info">

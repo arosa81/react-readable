@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+
 import { likeComment, dislikeComment, deleteExistingComment } from '../actions/comments';
 import { fetchComments, fetchComment } from '../actions/comments';
+
+import moment from 'moment';
 
 class Comment extends Component {
   constructor(props) {
@@ -17,12 +20,10 @@ class Comment extends Component {
 
     e.preventDefault();
     if (e.target.id === 'LIKE') {
-      this.props.voteLikeComment(comment.id)
-      setTimeout(() => {
-      }, 200)
+      this.props.voteLikeComment(comment)
     }
     else if (e.target.id === 'DISLIKE') {
-      this.props.voteDislikeComment(comment.id)
+      this.props.voteDislikeComment(comment)
     }
   }
 
@@ -34,26 +35,38 @@ class Comment extends Component {
 
   render() {
     const { comment } = this.props;
-    console.log("Comment PROPS: ", this.props);
     let dateOptions = { formatMatcher: 'best fit' };
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
 
     return (
-      <div key={comment.id}>
-        <div>{comment.body}</div>
-        <div>{comment.author}</div>
-        <div>{new Date(comment.timestamp).toLocaleTimeString().toString()}</div>
-        <div style={{display: 'inline-block'}} onClick={(e) => {this.handleVote(e)}}>
-          <button id={LIKE}>LIKE</button>
-          <button id={DISLIKE}>DISLIKE</button>
-          <button onClick={(e) => {this.handleDeleteComment(e, comment)}}>DELETE</button>
+      <div key={comment.id} className="card mb-3">
+        <div className="card-body">
+          <div className="btn-toolbar justify-content-between">
+            <Link className="text-dark" to={{ pathname: `/Edit Comment`, state: { comment }, }}>
+              <i className="fa fa-pencil fa-fw"></i> Edit
+            </Link>
+            <button className="btn btn-outline-danger btn-sm"
+              onClick={(e) => {this.handleDeleteComment(e, comment)}}>
+              <i className="fa fa-trash-o"></i>
+            </button>
+          </div>
+          <textarea readOnly className="card-text container" value={comment.body}
+            style={{border: 'none'}}></textarea>
+          <div className="card-subtitle mb-2 text-muted">
+            {moment(new Date(comment.timestamp)).format('YYYY-MM-DD hh:mm:ss a')} by {comment.author}
+          </div>
+          <p className="badge badge-pill badge-info">{comment.category}</p>
+          <div className="btn-group btn-group-sm" role="group" onClick={(e) => {this.handleVote(e)}}>
+            <button className="btn btn-outline-success" id={LIKE}>
+              <i className="fa fa-thumbs-up" id={LIKE}></i>
+            </button>
+            <button><span className="badge badge-pill badge-secondary">Votes {comment.voteScore}</span></button>
+            <button className="btn btn-outline-danger" id={DISLIKE}>
+              <i className="fa fa-thumbs-down" id={DISLIKE}></i>
+            </button>
+          </div>
         </div>
-        <Link to={{ pathname: `/Edit Comment`, state: { comment }, }}>
-          <button>Edit Comment</button>
-        </Link>
-        <br/>
-        <br/>
       </div>
     )
   }

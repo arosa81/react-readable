@@ -17,7 +17,6 @@ class PostForm extends Component {
 
   componentDidMount() {
     const { match, location, user, categories } = this.props
-    console.log("pppppppp", this.props);
     const { title, body, category, author } = this.state;
     match.path === '/Edit Post' && (
       this.setState(() => (
@@ -52,10 +51,6 @@ class PostForm extends Component {
     this.setState({formError: value})
   }
 
-  trimfield = (str) => {
-    return str.replace(/^\s+|\s+$/g,'');
-  }
-
   validate = (e) => {
     const { location, addPost, editPost, posts } = this.props;
     const { title, body, category } = this.state;
@@ -83,7 +78,6 @@ class PostForm extends Component {
               }));
           this.redirectBack();
         }
-
     }
     form.classList.add('was-validated');
   }
@@ -101,7 +95,6 @@ class PostForm extends Component {
   }
 
   render() {
-    console.log("iiiii", this.state)
     const { location, categories } = this.props;
 
     let inputButton = null;
@@ -113,9 +106,9 @@ class PostForm extends Component {
     return (
       <div>
         <form id="PostForm" onSubmit={this.handleSubmit} noValidate>
-          <Link className="text-danger" to={{ pathname: '/' }}>
+          <a className="text-danger" onClick={() => { this.redirectBack() }}>
             <i className="fa fa-window-close fa-lg" aria-hidden="true"></i>
-          </Link>
+          </a>
           <div className='form-group'>
             <label htmlFor="titleInput">Post Title:</label>
             <input required type="text" className="form-control" id='titleInput'

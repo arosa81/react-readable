@@ -8,7 +8,6 @@ class CategoryList extends Component {
 
   render() {
     const { categoryPath, user } = this.props;
-    console.log("CATEGORY LIST: ", this.props);
     return (
       <div>
         {categoryPath === '/' && (
@@ -23,10 +22,7 @@ class CategoryList extends Component {
 }
 
 function mapStateToProps(state, { match }) {
-  console.log(match);
   return {
-    // categories: state.categoryReducer.categories,
-    // category: state.categoryReducer.categories.filter((category) => category.path === match.params.path),
     categoryPath: match.params.path || '/',
     user: state.userReducer.user,
   };

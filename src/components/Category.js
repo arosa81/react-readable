@@ -24,7 +24,6 @@ class Category extends Component {
 
   render() {
     const { posts, categories, match } = this.props;
-    console.log("oooooo", this.props);
     const { sorting } = this.state;
     let showingPostList;
     if (match.path === '/') {

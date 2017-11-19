@@ -25,7 +25,6 @@ class App extends Component {
 
   render() {
     const { posts, user } = this.props;
-    console.log("USER APP", user);
     return (
       <div>
         {user === undefined && <Header />}

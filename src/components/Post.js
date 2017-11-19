@@ -1,10 +1,10 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
-import { likePost, dislikePost, deleteExistingPost } from '../actions/posts';
 import { withRouter, Link } from 'react-router-dom';
 
+import { likePost, dislikePost, deleteExistingPost } from '../actions/posts';
+
 import moment from 'moment';
-import { ButtonGroup } from 'react-bootstrap';
 
 class Post extends Component {
   constructor(props) {
@@ -62,11 +62,11 @@ class Post extends Component {
           </div>
           <textarea readOnly className="card-text container" value={post.body}
                     style={{border: 'none'}}></textarea>
-          <p>Votes <span className="badge badge-pill badge-secondary">{post.voteScore}</span></p>
           <div className="btn-group btn-group-sm" role="group" onClick={(e) => {this.handleVote(e)}}>
             <button className="btn btn-outline-success" id={LIKE}>
               <i className="fa fa-thumbs-up" id={LIKE}></i>
             </button>
+            <button><span className="badge badge-pill badge-secondary">Votes {post.voteScore}</span></button>
             <button className="btn btn-outline-danger" id={DISLIKE}>
               <i className="fa fa-thumbs-down" id={DISLIKE}></i>
             </button>
