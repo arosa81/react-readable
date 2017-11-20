@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link, Redirect } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import sortBy from 'sort-by';
 import Post from './Post';
 import { fetchPosts } from '../actions/posts';
@@ -23,7 +23,7 @@ class Category extends Component {
   }
 
   render() {
-    const { posts, categories, match } = this.props;
+    const { posts, match } = this.props;
     const { sorting } = this.state;
     let showingPostList;
     if (match.path === '/') {
@@ -45,12 +45,12 @@ class Category extends Component {
           <div className="btn-group btn-group-sm" onClick={(e) => {this.handleSorting(e)}}>
             <p>
               <i className="fa fa-sort" aria-hidden="true"></i> Sort By:
-              <a className="btn btn-secondary btn-sm" href="#" id="-voteScore">
+              <span className="btn btn-secondary btn-sm" id="-voteScore">
                 <i className="fa fa-sort-numeric-desc" title="Align Left"></i> Votes
-              </a>
-              <a className="btn btn-secondary btn-sm" href="#" id="-timestamp">
+              </span>
+              <span className="btn btn-secondary btn-sm" id="-timestamp">
                 <i className="fa fa-sort-amount-desc" title="Align Right"></i> Date
-              </a>
+              </span>
             </p>
           </div>
         </div>
@@ -66,7 +66,6 @@ class Category extends Component {
 
 function mapStateToProps(state, { match }) {
   const category = state.categoryReducer.categories.find((category) => category.path === match.params.categoryPath) || null;
-  const filteredPosts = state.postReducer.posts.filter((post) => post.category === match.params.categoryPath)
   return {
     posts: state.postReducer.posts,
     categories: state.categoryReducer.categories,

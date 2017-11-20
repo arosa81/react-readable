@@ -16,7 +16,7 @@ class CommentForm extends Component {
 
   componentDidMount() {
     const { match, location, user } = this.props
-    const { body, author } = this.state;
+    const { body } = this.state;
     match.path === '/Edit Comment' && (
       this.setState(() => (
           {
@@ -49,7 +49,7 @@ class CommentForm extends Component {
 
   validate = (e) => {
     const { location, addComment, editComment } = this.props;
-    const { body, author } = this.state;
+    const { body } = this.state;
     let form = document.getElementById('CommentForm');
     if (form.checkValidity() === false) {
       this.handleFormErrorChange('true');
@@ -77,13 +77,11 @@ class CommentForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { location, addComment, editComment, comments } = this.props;
-    const { body, author } = this.state;
     this.validate(e);
   }
 
   render() {
-    const { location, categories } = this.props;
+    const { location } = this.props;
     let inputButton = null;
     if (location.state.comment !== undefined) {
       inputButton = <input id="editCommentInput" className="btn btn-primary" type="submit" value="Edit Comment" />;

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
 import { likeComment, dislikeComment, deleteExistingComment } from '../actions/comments';
-import { fetchComments, fetchComment } from '../actions/comments';
 
 import moment from 'moment';
 
@@ -35,7 +34,6 @@ class Comment extends Component {
 
   render() {
     const { comment } = this.props;
-    let dateOptions = { formatMatcher: 'best fit' };
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
 

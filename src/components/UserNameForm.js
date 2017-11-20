@@ -49,7 +49,6 @@ class UserNameForm extends Component {
   }
 
   render() {
-    const { user } = this.props;
     return (
       <form id="userNameForm" onSubmit={this.handleSubmit} noValidate>
         <h4 className="alert alert-info">

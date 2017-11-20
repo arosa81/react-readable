@@ -24,8 +24,7 @@ class App extends Component {
   }
 
   render() {
-    const { posts, user } = this.props;
-    let matchingPost;
+    const { user } = this.props;
     return (
       <div>
         {user === undefined && <Header />}

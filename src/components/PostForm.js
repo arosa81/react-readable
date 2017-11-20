@@ -17,7 +17,7 @@ class PostForm extends Component {
 
   componentDidMount() {
     const { match, location, user, categories } = this.props
-    const { title, body, category, author } = this.state;
+    const { title, body } = this.state;
     let fromCategory;
     if (location.state !== undefined) {
       if (location.state.fromCategory !== undefined) {
@@ -62,7 +62,7 @@ class PostForm extends Component {
   }
 
   validate = (e) => {
-    const { location, addPost, editPost, posts } = this.props;
+    const { location, addPost, editPost } = this.props;
     const { title, body, category } = this.state;
 
     let form = document.getElementById('PostForm');
