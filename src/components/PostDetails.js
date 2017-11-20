@@ -65,6 +65,7 @@ class PostDetails extends Component {
   render() {
     const { post, comments } = this.props;
     const { sorting } = this.state;
+    console.log("ppppp", this.props, this.state);
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
     let commentsList;

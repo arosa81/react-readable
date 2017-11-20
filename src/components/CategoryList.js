@@ -10,11 +10,13 @@ class CategoryList extends Component {
     const { categoryPath, user } = this.props;
     return (
       <div>
-        {categoryPath === '/' && (
-          <h2 className="category-title-content">All Posts</h2>
+        {categoryPath === 'ALL Posts' && (
+          <div>
+            <h2 className="category-title-content">All Posts</h2>
+            <Category categoryPath={categoryPath}/>
+          </div>
         )}
         {user === '' && <Redirect to='/addusername' />}
-        <Category />
         <br/>
       </div>
     )
@@ -23,7 +25,7 @@ class CategoryList extends Component {
 
 function mapStateToProps(state, { match }) {
   return {
-    categoryPath: match.params.path || '/',
+    categoryPath: match.params.path || 'ALL Posts',
     user: state.userReducer.user,
   };
 }

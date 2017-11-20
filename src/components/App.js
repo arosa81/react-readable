@@ -16,9 +16,6 @@ import NoItem from './NoItem';
 
 class App extends Component {
   componentDidMount() {
-    this.props.match.params = {
-      categoryPath: 'ALL'
-    }
     this.props.queryPosts();
     this.props.queryCategories();
   }

@@ -23,15 +23,19 @@ class Category extends Component {
   }
 
   render() {
-    const { posts, match } = this.props;
+    const { posts, match, categories, category } = this.props;
     const { sorting } = this.state;
-    let showingPostList;
-    if (match.path === '/') {
-      showingPostList = posts;
-    } else if (match.params.categoryPath !== undefined) {
+    console.log("llll", this.props, this.state);
+    let showingPostList, validCategory;
+    if (match.params.categoryPath !== undefined) {
       showingPostList = posts.filter((p) => p.category === match.params.categoryPath)
+      if (category === null) { return (<NoItem />) }
     } else {
-      return (<NoItem />)
+      if (match.path === '/') {
+        showingPostList = posts;
+      } else {
+        return (<NoItem />)
+      }
     }
     showingPostList.sort(sortBy(sorting, 'title'))
     return (
