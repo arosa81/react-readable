@@ -29,7 +29,7 @@ class Category extends Component {
     if (match.path === '/') {
       showingPostList = posts;
     } else if (match.params.categoryPath !== undefined) {
-      showingPostList = posts.filter((p) => p.category === match.params.categoryPath);
+      showingPostList = posts.filter((p) => p.category === match.params.categoryPath)
     } else {
       return (<NoItem />)
     }
@@ -66,6 +66,7 @@ class Category extends Component {
 
 function mapStateToProps(state, { match }) {
   const category = state.categoryReducer.categories.find((category) => category.path === match.params.categoryPath) || null;
+
   return {
     posts: state.postReducer.posts,
     categories: state.categoryReducer.categories,
