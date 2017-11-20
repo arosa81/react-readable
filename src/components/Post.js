@@ -51,7 +51,7 @@ class Post extends Component {
   }
 
   render() {
-    const { post, comments } = this.props;
+    const { post } = this.props;
     const LIKE = 'LIKE';
     const DISLIKE = 'DISLIKE';
     return (
