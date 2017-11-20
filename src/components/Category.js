@@ -64,14 +64,14 @@ class Category extends Component {
   }
 }
 
-function mapStateToProps(state, { match }) {
-  const category = state.categoryReducer.categories.find((category) => category.path === match.params.categoryPath) || null;
+function mapStateToProps({ categoryReducer, postReducer, userReducer }, { match }) {
+  const category = categoryReducer.categories.find((category) => category.path === match.params.categoryPath) || null;
 
   return {
-    posts: state.postReducer.posts,
-    categories: state.categoryReducer.categories,
+    posts: postReducer.posts,
+    categories: categoryReducer.categories,
     category: category,
-    user: state.userReducer.user,
+    user: userReducer.user,
   };
 }
 

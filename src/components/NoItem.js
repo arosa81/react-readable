@@ -5,14 +5,12 @@ import { withRouter } from 'react-router-dom';
 function NoItem () {
   return (
     <div>
-      <h4 className="alert alert-danger">
-        <p>
-          Hmmm, stale data is not good.
-        </p>
-        <Link className="alert-link" to={'/'}>
-          Please click here to start the app with correct data
-        </Link>
-      </h4>
+      <h1> Page Not Found </h1>
+      <h3> 404 ERROR </h3>
+      <p>Invalid page</p>
+      <p className="alert alert-info">
+        <Link className="alert-link"to='/'>Please click here to start the app with correct data</Link>
+      </p>
     </div>
   )
 }
