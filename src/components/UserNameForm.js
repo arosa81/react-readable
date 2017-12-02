@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+
 import { submitUser } from '../actions/user';
 
 class UserNameForm extends Component {
@@ -9,7 +12,7 @@ class UserNameForm extends Component {
     super(props);
     this.state = {
       userName: '',
-      formError: '',
+      invalidUserName: false,
     }
   }
 
@@ -17,63 +20,56 @@ class UserNameForm extends Component {
     this.setState({ userName: e.target.value });
   }
 
-  handleFormErrorChange = (value) => {
-    this.setState({formError: value})
-  }
-
   redirectHome = () => {
     const { history } = this.props;
     setTimeout(() => {
-      this.state.formError === 'false' && history.push('/');
+      history.push('/');
     }, 200)
   }
 
-  validate = (e) => {
-    let form = document.getElementById('userNameForm');
-    if (form.checkValidity() === false) {
-      this.handleFormErrorChange('true');
-      e.preventDefault();
-      e.stopPropagation();
-    } else {
-      this.handleFormErrorChange('false');
-    }
-    form.classList.add('was-validated');
-  }
-
   handleSubmit = (e) => {
-    const { addUser } = this.props;
+    const { submitUser } = this.props;
+    const { userName, invalidUserName } = this.state;
     e.preventDefault();
-    this.validate(e);
-    addUser(this.state.userName);
-    this.redirectHome();
+    switch (userName.length) {
+      case -1:
+      case 0:
+        this.setState({ invalidUserName: true });
+        break;
+      default:
+        this.setState({ invalidUserName: false });
+    }
+
+    if (userName !== '') {
+      submitUser(userName);
+      this.redirectHome();
+    }
   }
 
   render() {
+    const { userName, invalidUserName } = this.state;
+    console.log("USERNAME: ", this.props, this.state);
+
     return (
-      <form id="userNameForm" onSubmit={this.handleSubmit} noValidate>
+      <div>
         <h4 className="alert alert-info">
           Enter a user name that you would like to use throughout the app.
         </h4>
-        <br/>
-        <div className='form-group'>
-          <label htmlFor="userNameInput">User Name:</label>
-          <input required type="text" className="form-control" id='userNameInput'
-                 placeholder='Enter a user name'
-                 value={this.state.userName}
-                 onChange={this.handleUserNameChange}
-          />
-          <p className="invalid-feedback"> Please provide a username.</p>
-        </div>
-        <input className="btn btn-primary" type="submit" value="Submit" />
-      </form>
+        <form id="userNameForm" onSubmit={this.handleSubmit} noValidate>
+          <div>
+            <TextField required type="text"
+              floatingLabelText="Enter a user name"
+              errorText={invalidUserName === false ? '' : 'Please provide a username'}
+              id='userNameInput'
+              value={userName}
+              onChange={this.handleUserNameChange}
+              />
+          </div>
+          <RaisedButton label="Submit" type="submit" primary={true} />
+        </form>
+      </div>
     )
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    addUser: (user) => dispatch(submitUser(user)),
-  }
-}
-
-export default withRouter(connect(null, mapDispatchToProps)(UserNameForm));
+export default withRouter(connect(null, { submitUser })(UserNameForm));
